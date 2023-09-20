@@ -1,0 +1,12 @@
+{
+  "name": "@hexlet/code",
+  "version": "0.0.1",
+  "description": "[![Actions Status](https://github.com/DanilCrazy99/fullstack-javascript-project-4/workflows/hexlet-check/badge.svg)](https://github.com/DanilCrazy99/fullstack-javascript-project-4/actions)",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Danil Volkov(volchara287@gmail.com)",
+  "license": "ISC"
+}
