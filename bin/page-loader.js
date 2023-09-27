@@ -1,5 +1,4 @@
-const pageLoader = (linkToWebSite) => {
-  return 0;
-}
+#!/usr/bin/env node
+import commanderConfig from '../src/cli.js';
 
-export default pageLoader;
+commanderConfig.parse();
