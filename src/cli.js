@@ -13,7 +13,7 @@ commanderConfig
     '/home/user/<current-dir>',
   )
   .action((url) => {
-    pageLoader(url, commanderConfig.opts().output).then(console.log);
+    pageLoader(url, commanderConfig.opts().output).then(console.log).catch(() => console.log('something wrong'));
   });
 
 export default commanderConfig;
