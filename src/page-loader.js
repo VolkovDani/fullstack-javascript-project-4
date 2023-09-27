@@ -11,6 +11,7 @@ const pageloader = (urlToSite, pathToSave = 'default') => new Promise((resolve, 
   if (pathToSaveFile === '/home/user/<current-dir>') pathToSaveFile = process.cwd();
 
   const regExp = /[^\w]/g;
+  const regExpForLastChar = /-(?!.)/g;
   const pathFile = new URL(urlToSite);
 
   const getDataFromWeb = axios.get(urlToSite).then((response) => {
@@ -22,7 +23,7 @@ const pageloader = (urlToSite, pathToSave = 'default') => new Promise((resolve, 
     if (!statsData.isDirectory()) {
       throw new Error('Is it not directory. You can not use this path for saving your file');
     }
-    const finalPathToFile = path.join(pathToSaveFile, pathFile.href.split('//')[1].replace(regExp, '-').concat('.html'));
+    const finalPathToFile = path.join(pathToSaveFile, pathFile.href.split('//')[1].replace(regExp, '-').replace(regExpForLastChar, '').concat('.html'));
     return finalPathToFile;
   });
 
@@ -38,5 +39,5 @@ const pageloader = (urlToSite, pathToSave = 'default') => new Promise((resolve, 
 
 export default pageloader;
 
-// const result = await pageloader('https://ru.hexlet.io/courses', '/home/danil/Tests');
+// const result = await pageloader('https://ru.hexlet.io', '/home/danil/Tests');
 // console.log(result);
