@@ -4,4 +4,4 @@
 
 # Page Loader
 This program can download any website in format html.
-[![asciicast](https://asciinema.org/a/H8Zlcudn8xBjzeSsp3sIc0DL3.svg)](https://asciinema.org/a/H8Zlcudn8xBjzeSsp3sIc0DL3)
+[![asciicast](https://asciinema.org/a/iqGfJOqdVOGpepDSrdsqxzf9j.svg)](https://asciinema.org/a/iqGfJOqdVOGpepDSrdsqxzf9j)
