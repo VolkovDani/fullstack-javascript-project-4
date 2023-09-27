@@ -18,7 +18,7 @@ let pathToNewFile;
 
 beforeEach(async () => {
   pathToTempFolder = `${await mkdtemp(path.join(tmpdir(), 'page-loader-'))}`;
-  const responseAnswer = await readFile(fixturePath('Preparing/siteData.html'), 'utf-8');
+  const responseAnswer = await readFile(fixturePath('Preparing/siteData'), 'utf-8');
   scope = nock('https://ru.hexlet.io')
     .get('/courses')
     .reply(200, responseAnswer);
@@ -34,7 +34,7 @@ test('Return path test', async () => {
 
 test('Second test', async () => {
   // Программа должна создать новый файл с скачанной страницей
-  const fixtureResult = await readFile(fixturePath('result.html'), 'utf-8');
+  const fixtureResult = await readFile(fixturePath('result'), 'utf-8');
   const newFileContent = await readFile(pathToNewFile, 'utf-8');
   expect(newFileContent).toBe(fixtureResult);
 });
