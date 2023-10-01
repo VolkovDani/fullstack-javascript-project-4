@@ -13,17 +13,22 @@ const fixturePath = (filenameFile) => path.join(myDirname, '..', '__fixtures__',
 
 let pathToTempFolder;
 let scope;
+let secondScope;
 let result;
 let pathToNewFile;
 
 beforeEach(async () => {
-  pathToTempFolder = `${await mkdtemp(path.join(tmpdir(), 'page-loader-'))}`;
-  const responseAnswer = await readFile(fixturePath('Preparing/siteData'), 'utf-8');
-  scope = nock('https://ru.hexlet.io')
+  const responseAnswer = await readFile(fixturePath('result'), 'utf-8');
+  scope = nock(/ru\.hexlet\.io/)
     .get('/courses')
     .reply(200, responseAnswer);
-  result = await pageLoader('https://ru.hexlet.io/courses', pathToTempFolder);
+  secondScope = nock('https://ru.hexlet.io')
+    .get('/derivations/image/original/nodejs.png')
+    .replyWithFile(200, path.join(myDirname, '__fixtures__/image_nodejs.png'));
+
+  pathToTempFolder = `${await mkdtemp(path.join(tmpdir(), 'page-loader-'))}`;
   pathToNewFile = path.join(pathToTempFolder, '/ru-hexlet-io-courses.html');
+  result = await pageLoader('https://ru.hexlet.io/courses', pathToTempFolder);
 });
 
 test('Return path test', async () => {
@@ -32,13 +37,20 @@ test('Return path test', async () => {
   expect(result).toBe(pathToNewFile);
 });
 
-test('Second test', async () => {
+test('Correct result', async () => {
   // Программа должна создать новый файл с скачанной страницей
   const fixtureResult = await readFile(fixturePath('result'), 'utf-8');
   const newFileContent = await readFile(pathToNewFile, 'utf-8');
   expect(newFileContent).toBe(fixtureResult);
 });
 
+test('Downloading imgs', async () => {
+  const dataImg = await readFile(path.join(pathToTempFolder, 'ru-hexlet-io-courses_files', 'ru-hexlet-io-courses-derivations-image-original-nodejs.png'));
+  const dataFixtureImg = await readFile(fixturePath('image_nodejs.png'));
+  expect(dataImg).toBe(dataFixtureImg);
+});
+
 afterEach(() => {
   scope.done();
+  secondScope.done();
 });
