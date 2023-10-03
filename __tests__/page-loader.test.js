@@ -10,10 +10,10 @@ import pageLoader from '../src/page-loader.js';
 const filename = fileURLToPath(import.meta.url);
 const myDirname = dirname(filename);
 const fixturePath = (filenameFile) => path.join(myDirname, '..', '__fixtures__', filenameFile);
+nock.disableNetConnect();
 
 let pathToTempFolder;
 let scope;
-let secondScope;
 let result;
 let pathToNewFile;
 
@@ -21,8 +21,7 @@ beforeEach(async () => {
   const responseAnswer = await readFile(fixturePath('result'), 'utf-8');
   scope = nock(/ru\.hexlet\.io/)
     .get('/courses')
-    .reply(200, responseAnswer);
-  secondScope = nock('https://ru.hexlet.io')
+    .reply(200, responseAnswer)
     .get('/derivations/image/original/nodejs.png')
     .replyWithFile(200, path.join(myDirname, '__fixtures__/image_nodejs.png'));
 
@@ -52,5 +51,4 @@ test('Downloading imgs', async () => {
 
 afterEach(() => {
   scope.done();
-  secondScope.done();
 });
