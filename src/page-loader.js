@@ -1,40 +1,23 @@
 import axios from 'axios';
-import { stat, writeFile } from 'fs/promises';
-import path from 'path';
+import { access, writeFile } from 'fs/promises';
+import { makePathToSavingFile as makePath } from '../utils/pathsAndStrings.js';
 // import { fileURLToPath } from 'url';
 
 // const filename = fileURLToPath(import.meta.url);
 // const myDirname = dirname(filename);
 
-const pageloader = (urlToSite, pathToSave = 'default') => new Promise((resolve, reject) => {
+const pageloader = (strToSite, pathToSave = '/home/user/<current-dir>') => new Promise((resolve, reject) => {
   let pathToSaveFile = pathToSave;
   if (pathToSaveFile === '/home/user/<current-dir>') pathToSaveFile = process.cwd();
-
-  const regExp = /[^\w]/g;
-  const regExpForLastChar = /-(?!.)/g;
-  const pathFile = new URL(urlToSite);
-
-  const getDataFromWeb = axios.get(urlToSite).then((response) => {
-    const siteRes = response.data;
-    return siteRes;
-  });
-
-  const checkStatFolder = stat(pathToSaveFile).then((statsData) => {
-    if (!statsData.isDirectory()) {
-      throw new Error('Is it not directory. You can not use this path for saving your file');
-    }
-    const finalPathToFile = path.join(pathToSaveFile, pathFile.href.split('//')[1].replace(regExp, '-').replace(regExpForLastChar, '').concat('.html'));
-    return finalPathToFile;
-  });
-
-  Promise.all([getDataFromWeb, checkStatFolder]).then(
-    ([response, pathToNewFile]) => {
-      // console.log(response);
-      writeFile(pathToNewFile, response, { encoding: 'utf-8', flag: 'wx' }).then(() => {
-        resolve(pathToNewFile);
-      });
-    },
-  ).catch((err) => reject(err));
+  const savePath = makePath(pathToSaveFile, strToSite);
+  // Идёт проверка на наличие файла. Если есть, файл не будет начинать скачиваться.
+  access(savePath).then(() => reject(new Error('File already exists.')))
+    .catch(() => {
+      axios.get(strToSite)
+        .then(({ data }) => writeFile(savePath, data, { encoding: 'utf-8', flag: 'wx' }))
+        .then(() => resolve(savePath))
+        .catch((err) => reject(err));
+    });
 });
 
 export default pageloader;
