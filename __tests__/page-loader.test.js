@@ -1,16 +1,13 @@
 import { test, expect, afterEach } from '@jest/globals';
 import nock from 'nock';
 
-import path, { dirname } from 'path';
-import { fileURLToPath } from 'url';
+import path from 'path';
 import { mkdtemp, readFile } from 'fs/promises';
 import { tmpdir } from 'os';
 import pageLoader from '../src/page-loader.js';
+import { fixturePath } from '../utils/pathsAndStrings.js';
 
-const filename = fileURLToPath(import.meta.url);
-const myDirname = dirname(filename);
-const fixturePath = (filenameFile) => path.join(myDirname, '..', '__fixtures__', filenameFile);
-nock.disableNetConnect();
+// nock.disableNetConnect();
 
 let pathToTempFolder;
 let scope;
@@ -23,7 +20,7 @@ beforeEach(async () => {
     .get('/courses')
     .reply(200, responseAnswer)
     .get('/derivations/image/original/nodejs.png')
-    .replyWithFile(200, path.join(myDirname, '__fixtures__/image_nodejs.png'));
+    .replyWithFile(200, fixturePath('image_nodejs.png'));
 
   pathToTempFolder = `${await mkdtemp(path.join(tmpdir(), 'page-loader-'))}`;
   pathToNewFile = path.join(pathToTempFolder, '/ru-hexlet-io-courses.html');

@@ -1,61 +1,13 @@
-<!DOCTYPE html>hello
-<html data-bs-theme="light" lang="ru" prefix="og: https://ogp.me/ns#">
+<!DOCTYPE html>
+<html lang="ru">
   <head>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <meta content="IE=Edge" http-equiv="X-UA-Compatible" />
-    <meta charset="utf-8" />
-    <title>Курсы программирования, обучение онлайн</title>
-    <meta
-      name="description"
-      content="Обучение языкам программирования онлайн, получи востребованную профессию в IT. Курсы программирования для начинающих и опытных программистов, опытные менторы, живое сообщество"
-    />
+    <meta charset="utf-8">
+    <title>Курсы по программированию Хекслет</title>
   </head>
-  <body class="min-vh-100">
-        </button>
-        <div class="navbar-collapse collapse" id="navbar-responsive">
-          <ul class="navbar-nav me-auto">
-            <li>
-              <a class="nav-link px-lg-3 text-body" href="/courses"
-                >Все курсы</a
-              >
-            </li>
-            <li><a class="nav-link px-lg-3" href="/webinars">Бесплатно</a></li>
-            <li>
-              <div class="dropdown text-body-secondary">
-                <button
-                  aria-haspopup="true"
-                  aria-label="О Хекслете"
-                  class="btn border-0 dropdown-toggle nav-link px-lg-3 x-btn-focus-visible"
-                  data-bs-toggle="dropdown"
-                >
-                  О Хекслете
-                </button>
-                <div class="dropdown-menu dropdown-menu-start">
-                  <a class="dropdown-item" href="/pages/about">О компании</a>
-                  <a class="dropdown-item" href="/blog">Блог</a>
-                  <a class="dropdown-item" href="/testimonials"
-                    >Отзывы студентов</a
-                  >
-                  <a class="dropdown-item" href="/teams">Компаниям</a>
-                </div>
-              </div>
-            </li>
-          </ul>
-          <div class="col-auto text-lg-end py-2 py-lg-0">
-            <a
-              class="btn btn-outline-secondary me-2"
-              href="https://ru.hexlet.io/session/new?back_to=https%3A%2F%2Fru.hexlet.io%2Fcourses"
-              >Вход</a
-            >
-            <a
-              class="btn btn-outline-secondary"
-              href="/u/new?back_to=https%3A%2F%2Fru.hexlet.io%2Fcourses"
-              >Регистрация</a
-            >
-          </div>
-        </div>
-      </header>
-    </div>
-    <div class="container"></div>
+  <body>
+    <img src="/assets/professions/nodejs.png" alt="Иконка профессии Node.js-программист" />
+    <h3>
+      <a href="/professions/nodejs">Node.js-программист</a>
+    </h3>
   </body>
 </html>
