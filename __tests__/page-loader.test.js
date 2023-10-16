@@ -7,7 +7,7 @@ import { tmpdir } from 'os';
 import pageLoader from '../src/page-loader.js';
 import { fixturePath } from '../utils/pathsAndStrings.js';
 
-// nock.disableNetConnect();
+nock.disableNetConnect();
 
 let pathToTempFolder;
 let scope;
@@ -15,11 +15,11 @@ let result;
 let pathToNewFile;
 
 beforeEach(async () => {
-  const responseAnswer = await readFile(fixturePath('result'), 'utf-8');
-  scope = nock(/ru\.hexlet\.io/)
+  const responseAnswer = await readFile(fixturePath('./Preparing/siteData'), 'utf-8');
+  scope = nock('https://ru.hexlet.io')
     .get('/courses')
     .reply(200, responseAnswer)
-    .get('/derivations/image/original/nodejs.png')
+    .get('/assets/professions/nodejs.png')
     .replyWithFile(200, fixturePath('image_nodejs.png'));
 
   pathToTempFolder = `${await mkdtemp(path.join(tmpdir(), 'page-loader-'))}`;
@@ -28,7 +28,6 @@ beforeEach(async () => {
 });
 
 test('Return path test', async () => {
-  // console.log(pathToTempFolder);
   // Программа должна вывести путь до сохранённого файла
   expect(result).toBe(pathToNewFile);
 });
@@ -41,7 +40,7 @@ test('Correct result', async () => {
 });
 
 test('Downloading imgs', async () => {
-  const dataImg = await readFile(path.join(pathToTempFolder, 'ru-hexlet-io-courses_files', 'ru-hexlet-io-courses-derivations-image-original-nodejs.png'));
+  const dataImg = await readFile(path.join(pathToTempFolder, 'ru-hexlet-io-courses_files', 'ru-hexlet-io-assets-professions-nodejs.png'));
   const dataFixtureImg = await readFile(fixturePath('image_nodejs.png'));
   expect(dataImg).toBe(dataFixtureImg);
 });
