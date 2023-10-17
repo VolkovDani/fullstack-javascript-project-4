@@ -40,8 +40,8 @@ test('Correct result', async () => {
 });
 
 test('Downloading imgs', async () => {
-  const dataImg = await readFile(path.join(pathToTempFolder, 'ru-hexlet-io-courses_files', 'ru-hexlet-io-assets-professions-nodejs.png'));
-  const dataFixtureImg = await readFile(fixturePath('image_nodejs.png'));
+  const dataImg = (await readFile(path.join(pathToTempFolder, 'ru-hexlet-io-courses_files', 'ru-hexlet-io-assets-professions-nodejs.png'))).toString();
+  const dataFixtureImg = (await readFile(fixturePath('image_nodejs.png'))).toString();
   expect(dataImg).toBe(dataFixtureImg);
 });
 
