@@ -24,7 +24,7 @@ class StringMaker {
     this.regExpForLastChar = /-(?!.)/g;
 
     this.urlWebSite = new URL(strUrlWebSite);
-    this.regularNameOfFileHTML = this.urlWebSite.href
+    this.stylizedURL = this.urlWebSite.href
       .split('//')[1]
       .replace(this.regExpNonLetters, '-')
       .replace(this.regExpForLastChar, '');
@@ -46,6 +46,7 @@ class StringMaker {
    * @returns Заменяет все символы на "-", кроме "." перед расширение файла
    */
   makeRegularNameOfSrcElement(elementSrc) {
+    // Нужна для того чтобы оставить знак точки у расширения файла
     const funcOfReplacing = (match, offset, string) => {
       const lenOfStr = string.length;
       if (offset > lenOfStr - 5 && match === '.') return '.';
@@ -65,7 +66,7 @@ class StringMaker {
    */
   makeURLtoFileAsset(elementSrc) {
     return path.join(
-      this.regularNameOfFileHTML.concat('_files'),
+      this.stylizedURL.concat('_files'),
       this.makeRegularNameOfSrcElement(elementSrc),
     );
   }
@@ -76,7 +77,7 @@ class StringMaker {
    * @returns Путь сохранения изображения
   */
   makePathToImg(elementSrc) {
-    const regHTML = this.regularNameOfFileHTML;
+    const regHTML = this.stylizedURL;
     return path.join(
       this.pathFile,
       regHTML.concat('_files/'),
@@ -92,7 +93,7 @@ class StringMaker {
   makePathForFolderWithIMGs() {
     return path.join(
       this.pathFile,
-      this.regularNameOfFileHTML.concat('_files/'),
+      this.stylizedURL.concat('_files/'),
     );
   }
 
@@ -103,7 +104,7 @@ class StringMaker {
    */
   makePathToSavingHTML() {
     return path
-      .join(this.pathFile, this.regularNameOfFileHTML.concat('.html'));
+      .join(this.pathFile, this.stylizedURL.concat('.html'));
   }
 }
 
