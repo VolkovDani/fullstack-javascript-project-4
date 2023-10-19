@@ -9,7 +9,7 @@ import { fileURLToPath } from 'url';
 const fixturePath = (...filenameFile) => {
   const filename = fileURLToPath(import.meta.url);
   const myDirname = dirname(filename);
-  return path.join(myDirname, '..', '__fixtures__', ...filenameFile);
+  return path.join(myDirname, '../..', '__fixtures__', ...filenameFile);
 };
 
 class StringMaker {

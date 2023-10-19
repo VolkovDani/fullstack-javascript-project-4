@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { access, writeFile, mkdir } from 'fs/promises';
 import * as cheerio from 'cheerio';
-import { StringMaker } from '../utils/pathsAndStrings.js';
+import { StringMaker } from './utils/pathsAndStrings.js';
 
 const pageloader = (strToSite, pathToSave = '/home/user/<current-dir>') => new Promise((resolve, reject) => {
   let pathToSaveFile = pathToSave;

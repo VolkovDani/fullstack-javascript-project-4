@@ -5,7 +5,7 @@ import path from 'path';
 import { mkdtemp, readFile } from 'fs/promises';
 import { tmpdir } from 'os';
 import pageLoader from '../src/page-loader.js';
-import { fixturePath } from '../utils/pathsAndStrings.js';
+import { fixturePath } from '../src/utils/pathsAndStrings.js';
 
 nock.disableNetConnect();
 
