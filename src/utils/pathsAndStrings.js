@@ -35,7 +35,9 @@ class StringMaker {
  * @returns Хост сайта
  */
   makeStrSiteWithoutDirs(attribSrc) {
-    return (this.urlWebSite.hostname.replace(this.regExpForLastChar, '')).concat(attribSrc);
+    const url = new URL(this.urlWebSite);
+    url.pathname = attribSrc;
+    return url.href;
   }
 
   /**
