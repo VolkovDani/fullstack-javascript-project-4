@@ -2,17 +2,23 @@ import { test, expect, afterEach } from '@jest/globals';
 import nock from 'nock';
 
 import path from 'path';
-import { mkdtemp, readFile } from 'fs/promises';
+import { mkdtemp, readFile, readdir, rmdir } from 'fs/promises';
 import { tmpdir } from 'os';
 import pageLoader from '../src/page-loader.js';
 import { fixturePath } from '../src/utils/pathsAndStrings.js';
 
 nock.disableNetConnect();
+/**
+ * Этот флаг для выбора, сохранять ли тестовые файлы в папке tmp
+ * true = сохранять
+ * false = не сохранять
+ */
+const saveTmpFiles = false;
 
 let pathToTempFolder;
 let scope;
-let result;
 let pathToNewFile;
+let result;
 
 beforeEach(async () => {
   const responseAnswer = await readFile(fixturePath('./Preparing/siteData'), 'utf-8');
@@ -45,6 +51,13 @@ test('Downloading imgs', async () => {
   expect(dataImg).toBe(dataFixtureImg);
 });
 
-afterEach(() => {
+test('Downloading Additional Assets', async () => {
+  const arrNeededFiles = ((await readFile(fixturePath('listLinks&Scripts'), 'utf-8')).split('\n'));
+  const arrFilesInFolder = (await readdir(path.join(pathToTempFolder, 'ru-hexlet-io-courses_files')));
+  expect(arrFilesInFolder).toBe(arrNeededFiles);
+})
+
+afterEach(async () => {
   scope.done();
+  if (saveTmpFiles) await rmdir(pathToTempFolder, { recursive: true });
 });
