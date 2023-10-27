@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { access, writeFile } from 'fs/promises';
 import { StringMaker } from './utils/pathsAndStrings.js';
-import downloadImages from './siteObjects/image.js';
+import downloadImages from './siteObjects/images.js';
 
 const pageloader = (strToSite, pathToSave = '/home/user/<current-dir>') => new Promise((resolve, reject) => {
   let pathToSaveFile = pathToSave;

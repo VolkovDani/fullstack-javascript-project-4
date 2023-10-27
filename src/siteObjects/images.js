@@ -2,7 +2,7 @@ import * as cheerio from 'cheerio';
 import { writeFile, mkdir } from 'fs/promises';
 import axios from 'axios';
 
-const downloadImages = (data, stringMaker) => {
+const downloadImages = async (data, stringMaker) => {
   const arrPromisesIMGs = [];
   const $ = cheerio.load(data);
   const arrImgs = $('img');
@@ -29,6 +29,7 @@ const downloadImages = (data, stringMaker) => {
       .then((response) => makingFile(response.data));
 
     arrPromisesIMGs.push(downloadImage);
+    // eslint-disable-next-line no-param-reassign
     el.attribs.src = stringMaker.makeURLtoFileAsset(srcCurrentElement);
   });
   return mkdir(pathForFolderWithIMGs)
