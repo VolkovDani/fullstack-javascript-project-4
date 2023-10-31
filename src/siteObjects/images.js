@@ -23,7 +23,7 @@ const downloadImages = ($, stringMaker) => {
     // Создать промис по скачиванию и созданию файла изображения
     // для каждого элемента и добавить в массив
     // чтобы потом отправить в Promise.all
-    const downloadImage = axios.get(srcCurrentElement, { responseType: 'blob' })
+    const downloadImage = axios.get(srcCurrentElement, { responseType: 'document' })
       .then((response) => makingFile(response.data));
 
     arrPromisesIMGs.push(downloadImage);

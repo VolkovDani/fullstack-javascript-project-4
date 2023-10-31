@@ -7,7 +7,7 @@ import downloadScripts from './siteObjects/scripts.js';
 
 // Здесь происходит передача страницы сайта
 // с последующей обработкой с заменой ссылок и скачиванием всех файлов
-export default (siteData, stringMaker) => new Promise((resolve, reject) => {
+export default (siteData, stringMaker) => {
   const $ = cheerio.load(siteData);
   const arrPromises = [
     downloadImages($, stringMaker),
@@ -15,8 +15,10 @@ export default (siteData, stringMaker) => new Promise((resolve, reject) => {
     downloadScripts($, stringMaker),
   ];
   const pathFolderAssets = stringMaker.makePathFolderAssets();
-  mkdir(pathFolderAssets)
-    .then(() => Promise.all(arrPromises))
-    .then(() => resolve($.html()))
-    .catch(reject);
-});
+  return new Promise((resolve, reject) => {
+    mkdir(pathFolderAssets)
+      .then(() => Promise.all(arrPromises))
+      .then(() => resolve($.html()))
+      .catch(reject);
+  });
+};
