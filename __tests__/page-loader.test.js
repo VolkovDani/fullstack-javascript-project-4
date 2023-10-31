@@ -13,7 +13,7 @@ nock.disableNetConnect();
  * true = сохранять
  * false = не сохранять
  */
-const saveTmpFiles = false;
+const saveTempFiles = false;
 
 let pathToTempFolder;
 let scope;
@@ -47,17 +47,17 @@ test('Correct result', async () => {
 
 test('Downloading imgs', async () => {
   const dataImg = (await readFile(path.join(pathToTempFolder, 'ru-hexlet-io-courses_files', 'ru-hexlet-io-assets-professions-nodejs.png'))).toString();
-  const dataFixtureImg = (await readFile(fixturePath('image_nodejs.png'))).toString();
+  const dataFixtureImg = (await readFile(fixturePath('testAssets/image_nodejs.png'))).toString();
   expect(dataImg).toBe(dataFixtureImg);
 });
 
 test('Downloading Additional Assets', async () => {
-  const arrNeededFiles = ((await readFile(fixturePath('listLinks&Scripts'), 'utf-8')).split('\n'));
-  const arrFilesInFolder = (await readdir(path.join(pathToTempFolder, 'ru-hexlet-io-courses_files')));
-  expect(arrFilesInFolder).toBe(arrNeededFiles);
-})
+  const arrNeededFiles = ((await readFile(fixturePath('listLinks&Scripts'), 'utf-8')).split('\n')).sort();
+  const arrFilesInFolder = (await readdir(path.join(pathToTempFolder, 'ru-hexlet-io-courses_files'))).sort();
+  expect(arrFilesInFolder).toEqual(arrNeededFiles);
+});
 
 afterEach(async () => {
   scope.done();
-  if (saveTmpFiles) await rmdir(pathToTempFolder, { recursive: true });
+  if (saveTempFiles) await rmdir(pathToTempFolder, { recursive: true });
 });
