@@ -43,7 +43,7 @@ beforeEach(async () => {
     .replyWithFile(200, fixturePath('testAssets/menu.css'));
   scope3 = nock('https://js.stripe.com')
     .get('/v3/')
-    .replyWithFile(200, fixturePath('testAssets/js-stripe-com-v3'))
+    .replyWithFile(200, fixturePath('testAssets/js-stripe-com-v3'));
 
   pathToTempFolder = `${await mkdtemp(path.join(tmpdir(), 'test-files-page-loader-'))}`;
   pathToNewFile = path.join(pathToTempFolder, '/ru-hexlet-io-courses.html');

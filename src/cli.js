@@ -13,7 +13,8 @@ commanderConfig
     '/home/user/<current-dir>',
   )
   .action((url) => {
-    pageLoader(url, commanderConfig.opts().output).then(console.log).catch(() => console.log('something wrong'));
+    // eslint-disable-next-line no-console
+    pageLoader(url, commanderConfig.opts().output).then(console.log).catch(() => console.log('Something wrong'));
   });
 
 export default commanderConfig;
