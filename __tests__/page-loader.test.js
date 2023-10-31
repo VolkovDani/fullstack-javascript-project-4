@@ -2,7 +2,9 @@ import { test, expect, afterEach } from '@jest/globals';
 import nock from 'nock';
 
 import path from 'path';
-import { mkdtemp, readFile, readdir, rmdir } from 'fs/promises';
+import {
+  mkdtemp, readFile, readdir, rmdir,
+} from 'fs/promises';
 import { tmpdir } from 'os';
 import pageLoader from '../src/page-loader.js';
 import { fixturePath } from '../src/utils/pathsAndStrings.js';
@@ -17,18 +19,33 @@ const saveTempFiles = false;
 
 let pathToTempFolder;
 let scope;
+let scope2;
+let scope3;
 let pathToNewFile;
 let result;
 
 beforeEach(async () => {
-  const responseAnswer = await readFile(fixturePath('./Preparing/siteData'), 'utf-8');
+  const responseAnswer = await readFile(fixturePath('./preparing/siteData'), 'utf-8');
+  // Можно ли сделать не так громоздко?
   scope = nock('https://ru.hexlet.io')
     .get('/courses')
     .reply(200, responseAnswer)
     .get('/assets/professions/nodejs.png')
-    .replyWithFile(200, fixturePath('image_nodejs.png'));
+    .replyWithFile(200, fixturePath('testAssets/image_nodejs.png'))
+    .get('/assets/application.css')
+    .replyWithFile(200, fixturePath('testAssets/application.css'))
+    .get('/courses')
+    .replyWithFile(200, fixturePath('testAssets/ru-hexlet-io-courses.html'))
+    .get('/packs/js/runtime.js')
+    .replyWithFile(200, fixturePath('testAssets/ru-hexlet-io-packs-js-runtime.js'));
+  scope2 = nock('https://cdn2.hexlet.io')
+    .get('/assets/menu.css')
+    .replyWithFile(200, fixturePath('testAssets/menu.css'));
+  scope3 = nock('https://js.stripe.com')
+    .get('/v3/')
+    .replyWithFile(200, fixturePath('testAssets/js-stripe-com-v3'))
 
-  pathToTempFolder = `${await mkdtemp(path.join(tmpdir(), 'page-loader-'))}`;
+  pathToTempFolder = `${await mkdtemp(path.join(tmpdir(), 'test-files-page-loader-'))}`;
   pathToNewFile = path.join(pathToTempFolder, '/ru-hexlet-io-courses.html');
   result = await pageLoader('https://ru.hexlet.io/courses', pathToTempFolder);
 });
@@ -59,5 +76,7 @@ test('Downloading Additional Assets', async () => {
 
 afterEach(async () => {
   scope.done();
+  scope2.done();
+  scope3.done();
   if (saveTempFiles) await rmdir(pathToTempFolder, { recursive: true });
 });
