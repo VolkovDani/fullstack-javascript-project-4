@@ -1,9 +1,9 @@
 import { writeFile } from 'fs/promises';
 import axios from 'axios';
 
-const downloadImages = ($, stringMaker) => {
-  const arrPromisesIMGs = [];
-  const listImgs = $('img');
+const downloadScripts = ($, stringMaker) => {
+  const arrPromises = [];
+  const listImgs = $('script');
 
   listImgs.each((i, { attribs }) => {
     /**
@@ -16,21 +16,21 @@ const downloadImages = ($, stringMaker) => {
     };
     const srcCurrentElement = getSrcCurrentElement();
     // Промис для создания файла с изображением
-    const makingFile = (dataImg) => {
-      const pathToImg = stringMaker.makePathElementFile(srcCurrentElement);
-      return writeFile(pathToImg, dataImg);
+    const makingFile = (dataScript) => {
+      const pathToScript = stringMaker.makePathElementFile(srcCurrentElement);
+      return writeFile(pathToScript, dataScript);
     };
     // Создать промис по скачиванию и созданию файла изображения
     // для каждого элемента и добавить в массив
     // чтобы потом отправить в Promise.all
-    const downloadImage = axios.get(srcCurrentElement, { responseType: 'blob' })
+    const downloadImage = axios.get(srcCurrentElement, { responseType: 'document' })
       .then((response) => makingFile(response.data));
 
-    arrPromisesIMGs.push(downloadImage);
+    arrPromises.push(downloadImage);
     // eslint-disable-next-line no-param-reassign
     attribs.src = stringMaker.makeURLFileAsset(srcCurrentElement);
   });
-  return Promise.all(arrPromisesIMGs).then(() => $, stringMaker);
+  return Promise.all(arrPromises).then(() => $, stringMaker);
 };
 
-export default downloadImages;
+export default downloadScripts;
