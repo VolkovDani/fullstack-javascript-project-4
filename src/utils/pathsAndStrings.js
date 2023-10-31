@@ -35,9 +35,7 @@ class StringMaker {
  * @returns Хост сайта
  */
   makeStrSiteWithoutDirs(attribSrc) {
-    const url = new URL(this.urlWebSite);
-    url.pathname = attribSrc;
-    return url.href;
+    return `${this.urlWebSite.origin}${attribSrc}`;
   }
 
   /**
@@ -45,7 +43,7 @@ class StringMaker {
    * @param {String} elementSrc src элемента который обрабатываем
    * @returns Заменяет все символы на "-", кроме "." перед расширение файла
    */
-  makeRegularNameOfSrcElement(elementSrc) {
+  makeRegularNameSrcElement(elementSrc) {
     // Нужна для того чтобы оставить знак точки у расширения файла
     const funcOfReplacing = (match, offset, string) => {
       const lenOfStr = string.length;
@@ -55,7 +53,8 @@ class StringMaker {
     return elementSrc
       .replace(/.{1,}\/\//g, '')
       .replace(this.regExpNonLetters, funcOfReplacing)
-      .replace(/(?<!.)-/g, '');
+      .replace(/(?<!.)-/g, '')
+      .replace(this.regExpForLastChar, '');
   }
 
   /**
@@ -64,10 +63,10 @@ class StringMaker {
    * @param {String} elementSrc Старый путь к файлу
    * @returns Новый путь к файлу, который подставим в новый HTML
    */
-  makeURLtoFileAsset(elementSrc) {
+  makeURLFileAsset(elementSrc) {
     return path.join(
       this.stylizedURL.concat('_files'),
-      this.makeRegularNameOfSrcElement(elementSrc),
+      this.makeRegularNameSrcElement(elementSrc),
     );
   }
 
@@ -76,12 +75,12 @@ class StringMaker {
    * @param {String} elementSrc Путь до файла изображения и его название
    * @returns Путь сохранения изображения
   */
-  makePathToImg(elementSrc) {
+  makePathElementFile(elementSrc) {
     const regHTML = this.stylizedURL;
     return path.join(
       this.pathFile,
       regHTML.concat('_files/'),
-      this.makeRegularNameOfSrcElement(elementSrc),
+      this.makeRegularNameSrcElement(elementSrc),
     );
   }
 
@@ -90,7 +89,7 @@ class StringMaker {
   * @param {String} strUrlWebSite Адрес вебсайта
   * @returns Путь до папки с ассетами
   */
-  makePathForFolderWithIMGs() {
+  makePathFolderAssets() {
     return path.join(
       this.pathFile,
       this.stylizedURL.concat('_files/'),
@@ -102,7 +101,7 @@ class StringMaker {
    * в ссылку для сохранения HTML файла сайта
    * @returns Путь по которому будет сохранятся HTML
    */
-  makePathToSavingHTML() {
+  makePathFileHTML() {
     return path
       .join(this.pathFile, this.stylizedURL.concat('.html'));
   }
