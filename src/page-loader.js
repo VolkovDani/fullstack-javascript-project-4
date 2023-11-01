@@ -12,6 +12,7 @@ const pageloader = (strToSite, pathToSave = '/home/user/<current-dir>') => {
     // Путь для сохранения файла
     // Идёт проверка на наличие файла. Если есть, файл не будет начинать скачиваться.
     access(savePath).then(() => reject(new Error('File already exists.')))
+      .then(() => access(stringMaker.makePathFolderAssets())).then(() => reject(new Error('Folder with assets already exists.')))
     // Если файла нет(нет возможности узнать access), то продолжаем
       .catch(() => {
         axios.get(strToSite)
@@ -25,5 +26,4 @@ const pageloader = (strToSite, pathToSave = '/home/user/<current-dir>') => {
 
 export default pageloader;
 
-// const result = await pageloader('https://ru.hexlet.io/courses', '/home/danil/Tests');
-// console.log(result);
+// await pageloader('https://ru.hexlet.io/courses', '/home/danil/Tests');
