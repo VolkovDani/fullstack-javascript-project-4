@@ -1,6 +1,6 @@
 {
   "name": "@hexlet/code",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "[![Actions Status](https://github.com/DanilCrazy99/fullstack-javascript-project-4/workflows/hexlet-check/badge.svg)](https://github.com/DanilCrazy99/fullstack-javascript-project-4/actions)",
   "type": "module",
   "main": "./bin/page-loader.js",
