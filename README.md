@@ -4,4 +4,10 @@
 
 # Page Loader
 This program can download any website in format html.
-[![asciicast](https://asciinema.org/a/iqGfJOqdVOGpepDSrdsqxzf9j.svg)](https://asciinema.org/a/iqGfJOqdVOGpepDSrdsqxzf9j)
+
+In addition, this program download all assets:
+- images
+- links(css or other types)
+- scripts(if it written with import from local or another resourse)
+
+[![asciicast](https://asciinema.org/a/3JTtgmQLQo7oau1WOJrAW3Wlm.svg)](https://asciinema.org/a/3JTtgmQLQo7oau1WOJrAW3Wlm)
