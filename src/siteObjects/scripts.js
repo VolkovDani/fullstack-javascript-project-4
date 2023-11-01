@@ -6,6 +6,7 @@ const downloadScripts = ($, stringMaker) => {
   const listImgs = $('script');
 
   listImgs.each((i, { attribs }) => {
+    if (!attribs.src) return;
     /**
      * Проверяет ссылку на ассет и в случае необходимости подставляет недостающие элементы ссылки
      * @returns url для скачивания ассета
@@ -24,7 +25,9 @@ const downloadScripts = ($, stringMaker) => {
     // для каждого элемента и добавить в массив
     // чтобы потом отправить в Promise.all
     const downloadImage = axios.get(srcCurrentElement, { responseType: 'document' })
-      .then((response) => makingFile(response.data));
+      .then((response) => makingFile(response.data))
+      // eslint-disable-next-line no-param-reassign
+      .catch((e) => console.log('\x1b[1m', '\x1b[31m', `${e.name}: ${e.message} in asset 'link':\n${srcCurrentElement}`, '\x1b[0m'));
 
     arrPromises.push(downloadImage);
     // eslint-disable-next-line no-param-reassign

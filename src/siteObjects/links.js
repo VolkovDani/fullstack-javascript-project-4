@@ -17,14 +17,16 @@ const downloadLinks = ($, stringMaker) => {
     const hrefCurrentElement = getHrefCurrentElement();
     const makingFile = (dataHref) => {
       let pathToFile;
-      if (attribs.rel === 'canonical') pathToFile = stringMaker.makePathElementFile(hrefCurrentElement).concat('.html');
+      if (attribs.rel === 'canonical' || (attribs.rel === 'alternate' && attribs.type !== 'application/rss+xml')) pathToFile = stringMaker.makePathElementFile(hrefCurrentElement).concat('.html');
       else pathToFile = stringMaker.makePathElementFile(hrefCurrentElement);
       return writeFile(pathToFile, dataHref);
     };
     const downloadImage = axios.get(hrefCurrentElement, { responseType: 'document' })
       .then((response) => {
         makingFile(response.data);
-      });
+      })
+      // eslint-disable-next-line no-param-reassign
+      .catch((e) => console.log('\x1b[1m', '\x1b[31m', `${e.name}: ${e.message} in asset 'link':\n${hrefCurrentElement}`, '\x1b[0m'));
 
     arrPromises.push(downloadImage);
     // eslint-disable-next-line no-param-reassign

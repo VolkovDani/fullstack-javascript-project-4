@@ -18,7 +18,7 @@ Format for working: page-loader <URL> [-o <path to folder for saving>]`,
   )
   .action((url) => {
     // eslint-disable-next-line no-console
-    pageLoader(url, commanderConfig.opts().output).then(console.log).catch(() => console.log('Something wrong'));
+    pageLoader(url, commanderConfig.opts().output).then((path) => console.log(`Path to HTML: ${path}`)).catch((e) => console.log(`CLI Error Output:\n${e.name}: ${e.message}`));
   });
 
 export default commanderConfig;
