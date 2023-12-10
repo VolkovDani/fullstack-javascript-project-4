@@ -21,8 +21,10 @@
     "page-loader": "bin/page-loader.js"
   },
   "dependencies": {
-    "axios": "^1.5.0",
+    "axios": "^1.6.2",
+    "axios-debug-log": "^1.0.0",
     "cheerio": "^1.0.0-rc.12",
-    "commander": "^11.0.0"
+    "commander": "^11.0.0",
+    "debug": "^4.3.4"
   }
 }

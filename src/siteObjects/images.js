@@ -1,5 +1,24 @@
 import { writeFile } from 'fs/promises';
 import axios from 'axios';
+import axiosLog from 'axios-debug-log';
+
+axiosLog({
+  request: (debug, config) => {
+    debug('Request with ', config.headers['content-type']);
+  },
+  response: (debug, response) => {
+    debug(
+      'Response with ',
+      response.headers['content-type'],
+      'from ',
+      response.config.url,
+    );
+  },
+  error: (debug, error) => {
+    // Read https://www.npmjs.com/package/axios#handling-errors for more info
+    debug('Boom', error);
+  },
+});
 
 const downloadImages = ($, stringMaker) => {
   const arrPromisesIMGs = [];
