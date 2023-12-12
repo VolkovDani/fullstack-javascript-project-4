@@ -33,7 +33,7 @@ const downloadImages = ($, stringMaker) => {
       })
       // eslint-disable-next-line no-param-reassign
       .catch((e) => {
-        imagesLog('Error GET image:', e);
+        imagesLog('Error GET image:', e.message);
         return console.log('\x1b[1m', '\x1b[31m', `${e.name}: ${e.message} in asset 'link':\n${srcCurrentElement}`, '\x1b[0m');
       });
 
