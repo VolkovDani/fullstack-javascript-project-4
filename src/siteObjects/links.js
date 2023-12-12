@@ -1,5 +1,6 @@
 import { writeFile } from 'fs/promises';
 import axios from 'axios';
+import debugEl from '../utils/debugEl';
 
 const downloadLinks = ($, stringMaker) => {
   const arrPromises = [];
@@ -21,14 +22,18 @@ const downloadLinks = ($, stringMaker) => {
       else pathToFile = stringMaker.makePathElementFile(hrefCurrentElement);
       return writeFile(pathToFile, dataHref);
     };
-    const downloadImage = axios.get(hrefCurrentElement, { responseType: 'document' })
+    const downloadLink = axios.get(hrefCurrentElement, { responseType: 'document' })
       .then((response) => {
+        debugEl('GET link');
         makingFile(response.data);
       })
       // eslint-disable-next-line no-param-reassign
-      .catch((e) => console.log('\x1b[1m', '\x1b[31m', `${e.name}: ${e.message} in asset 'link':\n${hrefCurrentElement}`, '\x1b[0m'));
+      .catch((e) => {
+        debugEl('Error:link');
+        console.log('\x1b[1m', '\x1b[31m', `${e.name}: ${e.message} in asset 'link':\n${hrefCurrentElement}`, '\x1b[0m');
+      });
 
-    arrPromises.push(downloadImage);
+    arrPromises.push(downloadLink);
     // eslint-disable-next-line no-param-reassign
     if (attribs.rel === 'canonical') attribs.href = stringMaker.makeURLFileAsset(hrefCurrentElement).concat('.html');
     // eslint-disable-next-line no-param-reassign

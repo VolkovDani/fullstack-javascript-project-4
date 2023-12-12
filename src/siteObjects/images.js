@@ -1,24 +1,6 @@
 import { writeFile } from 'fs/promises';
 import axios from 'axios';
-import axiosLog from 'axios-debug-log';
-
-axiosLog({
-  request: (debug, config) => {
-    debug('Request with ', config.headers['content-type']);
-  },
-  response: (debug, response) => {
-    debug(
-      'Response with ',
-      response.headers['content-type'],
-      'from ',
-      response.config.url,
-    );
-  },
-  error: (debug, error) => {
-    // Read https://www.npmjs.com/package/axios#handling-errors for more info
-    debug('Boom', error);
-  },
-});
+import debugEl from '../utils/debugEl';
 
 const downloadImages = ($, stringMaker) => {
   const arrPromisesIMGs = [];
@@ -43,9 +25,15 @@ const downloadImages = ($, stringMaker) => {
     // для каждого элемента и добавить в массив
     // чтобы потом отправить в Promise.all
     const downloadImage = axios.get(srcCurrentElement, { responseType: 'document' })
-      .then((response) => makingFile(response.data))
+      .then((response) => {
+        debugEl('GET image');
+        return makingFile(response.data);
+      })
       // eslint-disable-next-line no-param-reassign
-      .catch((e) => console.log('\x1b[1m', '\x1b[31m', `${e.name}: ${e.message} in asset 'link':\n${srcCurrentElement}`, '\x1b[0m'));
+      .catch((e) => {
+        debugEl('Error GET image:', e);
+        return console.log('\x1b[1m', '\x1b[31m', `${e.name}: ${e.message} in asset 'link':\n${srcCurrentElement}`, '\x1b[0m');
+      });
 
     arrPromisesIMGs.push(downloadImage);
     // eslint-disable-next-line no-param-reassign

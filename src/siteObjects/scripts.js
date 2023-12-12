@@ -1,5 +1,6 @@
 import { writeFile } from 'fs/promises';
 import axios from 'axios';
+import debugEl from '../utils/debugEl';
 
 const downloadScripts = ($, stringMaker) => {
   const arrPromises = [];
@@ -24,12 +25,15 @@ const downloadScripts = ($, stringMaker) => {
     // Создать промис по скачиванию и созданию файла изображения
     // для каждого элемента и добавить в массив
     // чтобы потом отправить в Promise.all
-    const downloadImage = axios.get(srcCurrentElement, { responseType: 'document' })
-      .then((response) => makingFile(response.data))
+    const downloadScript = axios.get(srcCurrentElement, { responseType: 'document' })
+      .then((response) => {
+        debugEl('GET scripts');
+        makingFile(response.data);
+      })
       // eslint-disable-next-line no-param-reassign
       .catch((e) => console.log('\x1b[1m', '\x1b[31m', `${e.name}: ${e.message} in asset 'link':\n${srcCurrentElement}`, '\x1b[0m'));
 
-    arrPromises.push(downloadImage);
+    arrPromises.push(downloadScript);
     // eslint-disable-next-line no-param-reassign
     attribs.src = stringMaker.makeURLFileAsset(srcCurrentElement);
   });
