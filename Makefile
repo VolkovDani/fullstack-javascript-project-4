@@ -11,5 +11,8 @@ lint:
 test:
 		npm test
 
+debug-test:
+		npm run debug-test
+
 test_coverage:
 		npx jest --coverage

@@ -1,11 +1,12 @@
 {
   "name": "@hexlet/code",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "[![Actions Status](https://github.com/DanilCrazy99/fullstack-javascript-project-4/workflows/hexlet-check/badge.svg)](https://github.com/DanilCrazy99/fullstack-javascript-project-4/actions)",
   "type": "module",
   "main": "./bin/page-loader.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "debug-test": "DEBUG=nock.*,page-loader.* jest"
   },
   "author": "Danil Volkov(volchara287@gmail.com)",
   "license": "ISC",
