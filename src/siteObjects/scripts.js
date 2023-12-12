@@ -1,6 +1,8 @@
 import { writeFile } from 'fs/promises';
 import axios from 'axios';
-import debugEl from '../utils/debugEl';
+import log from '../utils/debugEl.js';
+
+const scriptsLog = log.extend('scripts');
 
 const downloadScripts = ($, stringMaker) => {
   const arrPromises = [];
@@ -27,12 +29,12 @@ const downloadScripts = ($, stringMaker) => {
     // чтобы потом отправить в Promise.all
     const downloadScript = axios.get(srcCurrentElement, { responseType: 'document' })
       .then((response) => {
-        debugEl('GET scripts');
+        scriptsLog('GET scripts: ', srcCurrentElement);
         makingFile(response.data);
       })
       // eslint-disable-next-line no-param-reassign
       .catch((e) => {
-        debugEl('Error scripts', e);
+        scriptsLog('Error scripts', e);
         console.log('\x1b[1m', '\x1b[31m', `${e.name}: ${e.message} in asset 'link':\n${srcCurrentElement}`, '\x1b[0m');
       });
 

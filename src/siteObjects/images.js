@@ -1,6 +1,8 @@
 import { writeFile } from 'fs/promises';
 import axios from 'axios';
-import debugEl from '../utils/debugEl';
+import log from '../utils/debugEl.js';
+
+const imagesLog = log.extend('images');
 
 const downloadImages = ($, stringMaker) => {
   const arrPromisesIMGs = [];
@@ -26,12 +28,12 @@ const downloadImages = ($, stringMaker) => {
     // чтобы потом отправить в Promise.all
     const downloadImage = axios.get(srcCurrentElement, { responseType: 'document' })
       .then((response) => {
-        debugEl('GET image');
+        imagesLog('GET image: ', srcCurrentElement);
         return makingFile(response.data);
       })
       // eslint-disable-next-line no-param-reassign
       .catch((e) => {
-        debugEl('Error GET image:', e);
+        imagesLog('Error GET image:', e);
         return console.log('\x1b[1m', '\x1b[31m', `${e.name}: ${e.message} in asset 'link':\n${srcCurrentElement}`, '\x1b[0m');
       });
 

@@ -1,6 +1,8 @@
 import { writeFile } from 'fs/promises';
 import axios from 'axios';
-import debugEl from '../utils/debugEl';
+import log from '../utils/debugEl.js';
+
+const linksLog = log.extend('links');
 
 const downloadLinks = ($, stringMaker) => {
   const arrPromises = [];
@@ -24,12 +26,12 @@ const downloadLinks = ($, stringMaker) => {
     };
     const downloadLink = axios.get(hrefCurrentElement, { responseType: 'document' })
       .then((response) => {
-        debugEl('GET link');
+        linksLog('GET link: ', hrefCurrentElement);
         makingFile(response.data);
       })
       // eslint-disable-next-line no-param-reassign
       .catch((e) => {
-        debugEl('Error:link', e);
+        linksLog('Error:link', e);
         console.log('\x1b[1m', '\x1b[31m', `${e.name}: ${e.message} in asset 'link':\n${hrefCurrentElement}`, '\x1b[0m');
       });
 
