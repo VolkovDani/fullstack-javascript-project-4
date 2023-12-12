@@ -31,7 +31,10 @@ const downloadScripts = ($, stringMaker) => {
         makingFile(response.data);
       })
       // eslint-disable-next-line no-param-reassign
-      .catch((e) => console.log('\x1b[1m', '\x1b[31m', `${e.name}: ${e.message} in asset 'link':\n${srcCurrentElement}`, '\x1b[0m'));
+      .catch((e) => {
+        debugEl('Error scripts', e);
+        console.log('\x1b[1m', '\x1b[31m', `${e.name}: ${e.message} in asset 'link':\n${srcCurrentElement}`, '\x1b[0m');
+      });
 
     arrPromises.push(downloadScript);
     // eslint-disable-next-line no-param-reassign
