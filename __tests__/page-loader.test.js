@@ -1,4 +1,3 @@
-import { test, expect, afterEach } from '@jest/globals';
 import nock from 'nock';
 
 import path from 'path';
@@ -12,7 +11,7 @@ import { fixturePath } from '../src/utils/pathsAndStrings.js';
 nock.disableNetConnect();
 /**
  * Этот флаг для выбора, сохранять ли тестовые файлы в папке tmp
- * true = сохранять
+ * true = сохранять;
  * false = не сохранять
  */
 const saveTempFiles = false;
