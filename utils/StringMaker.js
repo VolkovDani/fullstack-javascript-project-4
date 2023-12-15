@@ -1,18 +1,6 @@
-import path, { dirname } from 'path';
-import { fileURLToPath } from 'url';
+import path from 'path';
 
-/**
- * Правильная склейка путей до фикстур
- * @param  {...String} filenameFile Название файла в фикстурах
- * @returns Путь до фикстуры
-*/
-const fixturePath = (...filenameFile) => {
-  const filename = fileURLToPath(import.meta.url);
-  const myDirname = dirname(filename);
-  return path.join(myDirname, '../..', '__fixtures__', ...filenameFile);
-};
-
-class StringMaker {
+export default class StringMaker {
   /**
    * Класс с методами для преобразования строк и путей
    * @param {String} strUrlWebSite Ссылка на сайт который скачиваем
@@ -106,5 +94,3 @@ class StringMaker {
       .join(this.pathFile, this.stylizedURL.concat('.html'));
   }
 }
-
-export { fixturePath, StringMaker };

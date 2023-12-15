@@ -1,6 +1,6 @@
 import { writeFile } from 'fs/promises';
 import axios from 'axios';
-import log from '../utils/debugEl.js';
+import log from '../../utils/debugEl.js';
 
 const imagesLog = log.extend('images');
 

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { access, writeFile } from 'fs/promises';
-import { StringMaker } from './utils/pathsAndStrings.js';
+import StringMaker from '../utils/StringMaker.js';
 import builderHtml from './builderHtml.js';
 
 const pageloader = (strToSite, pathToSave = '/home/user/<current-dir>') => {
