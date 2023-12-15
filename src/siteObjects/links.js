@@ -32,7 +32,7 @@ const downloadLinks = ($, stringMaker) => {
       // eslint-disable-next-line no-param-reassign
       .catch((e) => {
         linksLog('Error:link', e.message);
-        console.error('\x1b[1m', '\x1b[31m', `${e.name}: ${e.message} in asset 'link':\n${hrefCurrentElement}`, '\x1b[0m');
+        console.error(`${e.name}: ${e.message} in asset 'link':\n${hrefCurrentElement}`);
       });
 
     arrPromises.push(downloadLink);

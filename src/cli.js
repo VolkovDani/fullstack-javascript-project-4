@@ -17,8 +17,14 @@ Format for working: page-loader <URL> [-o <path to folder for saving>]`,
     '/home/user/<current-dir>',
   )
   .action((url) => {
+    pageLoader(url, commanderConfig.opts().output)
     // eslint-disable-next-line no-console
-    pageLoader(url, commanderConfig.opts().output).then((path) => console.log(`Path to HTML: ${path}`)).catch((e) => console.error(`CLI Error Output:\n${e.name}: ${e.message}`));
+      .then((path) => console.log(`Path to HTML: ${path}`))
+      .catch((e) => {
+        // eslint-disable-next-line no-console
+        console.error(`CLI Error Output:\n${e.name}: ${e.message}`);
+        process.exit(1);
+      });
   });
 
 export default commanderConfig;
