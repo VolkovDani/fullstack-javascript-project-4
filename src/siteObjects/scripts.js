@@ -29,12 +29,13 @@ const downloadScripts = ($, stringMaker) => {
     // чтобы потом отправить в Promise.all
     const downloadScript = axios.get(srcCurrentElement, { responseType: 'document' })
       .then((response) => {
-        scriptsLog('GET scripts: ', srcCurrentElement);
+        scriptsLog('GET script: ', srcCurrentElement);
         makingFile(response.data);
       })
       .catch((e) => {
-        scriptsLog('Error scripts', e.message);
-        console.error(`${e.name}: ${e.message} in asset 'link':\n${srcCurrentElement}`);
+        scriptsLog('Error GET script', e.message);
+        // eslint-disable-next-line no-console
+        console.error(`${e.name}: ${e.message} in asset 'script': ${srcCurrentElement}`);
       });
 
     arrPromises.push(downloadScript);

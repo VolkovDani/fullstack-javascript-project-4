@@ -29,10 +29,10 @@ const downloadLinks = ($, stringMaker) => {
         linksLog('GET link: ', hrefCurrentElement);
         makingFile(response.data);
       })
-      // eslint-disable-next-line no-param-reassign
       .catch((e) => {
-        linksLog('Error:link', e.message);
-        console.error(`${e.name}: ${e.message} in asset 'link':\n${hrefCurrentElement}`);
+        linksLog('Error GET link', e.message);
+        // eslint-disable-next-line no-console
+        console.error(`${e.name}: ${e.message} in asset 'link': ${hrefCurrentElement}`);
       });
 
     arrPromises.push(downloadLink);

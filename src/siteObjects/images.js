@@ -33,7 +33,8 @@ const downloadImages = ($, stringMaker) => {
       })
       .catch((e) => {
         imagesLog('Error GET image:', e.message);
-        return console.error(`${e.name}: ${e.message} in asset 'link':\n${srcCurrentElement}`);
+        // eslint-disable-next-line no-console
+        return console.error(`${e.name}: ${e.message} in asset 'image': ${srcCurrentElement}`);
       });
 
     arrPromisesIMGs.push(downloadImage);
