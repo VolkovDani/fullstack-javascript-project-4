@@ -5,6 +5,7 @@ import builderHtml from './builderHtml.js';
 
 const errors = {
   ENOENT: 'No such directory. At first, make folder',
+  EACCES: 'Not enough permissions in this folder',
 };
 
 const pageLoader = (strToSite, pathToSave = '/home/user/<current-dir>') => {
