@@ -25,9 +25,6 @@ test('Network error', async () => {
 });
 
 test('Permissions ERROR in folder', async () => {
-  const protectedFolderPath = path.join(pathToTempFolder, 'protectedFolder');
-  await mkdir(protectedFolderPath, {mode: })
-
   const scope = nock('https://ru.hexlet.io').get('/courses').reply(200, 'Some page');
   await expect(() => pageLoader('https://ru.hexlet.io/courses', '/sys')).rejects.toThrow('Not enough permissions in this folder');
   scope.isDone();
