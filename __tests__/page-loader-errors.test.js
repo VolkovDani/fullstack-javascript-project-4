@@ -1,6 +1,6 @@
 import nock from 'nock';
 import {
-  mkdtemp, rmdir, mkdir
+  mkdtemp, rmdir,
 } from 'fs/promises';
 import path from 'path';
 import { tmpdir } from 'os';
