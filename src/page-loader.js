@@ -3,7 +3,7 @@ import { access, writeFile } from 'fs/promises';
 import StringMaker from '../utils/StringMaker.js';
 import builderHtml from './builderHtml.js';
 
-const pageloader = (strToSite, pathToSave = '/home/user/<current-dir>') => {
+const pageLoader = (strToSite, pathToSave = '/home/user/<current-dir>') => {
   let pathToSaveFile = pathToSave;
   if (pathToSaveFile === '/home/user/<current-dir>') pathToSaveFile = process.cwd();
   const stringMaker = new StringMaker(strToSite, pathToSaveFile);
@@ -19,11 +19,9 @@ const pageloader = (strToSite, pathToSave = '/home/user/<current-dir>') => {
           .then(({ data }) => builderHtml(data, stringMaker))
           .then((htmlData) => writeFile(savePath, htmlData))
           .then(() => resolve(savePath))
-          .catch((err) => reject(err));
+          .catch((err) => reject(new Error(`${err.name}: ${err.message}`)));
       });
   });
 };
 
-export default pageloader;
-
-// await pageloader('https://ru.hexlet.io/courses', '/home/danil/Tests');
+export default pageLoader;
