@@ -3,6 +3,10 @@ import { access, writeFile } from 'fs/promises';
 import StringMaker from '../utils/StringMaker.js';
 import builderHtml from './builderHtml.js';
 
+const errors = {
+  ENOENT: 'No such directory. At first, make folder',
+};
+
 const pageLoader = (strToSite, pathToSave = '/home/user/<current-dir>') => {
   let pathToSaveFile = pathToSave;
   if (pathToSaveFile === '/home/user/<current-dir>') pathToSaveFile = process.cwd();
@@ -12,14 +16,16 @@ const pageLoader = (strToSite, pathToSave = '/home/user/<current-dir>') => {
     // Путь для сохранения файла
     // Идёт проверка на наличие файла. Если есть, файл не будет начинать скачиваться.
     access(savePath).then(() => reject(new Error('File already exists.')))
-      .then(() => access(stringMaker.makePathFolderAssets())).then(() => reject(new Error('Folder with assets already exists.')))
+    // Проверка на наличие папки с ассетами. Если есть, файлы не будут начинать скачиваться.
+      .then(() => access(stringMaker.makePathFolderAssets()))
+      .then(() => reject(new Error('Folder with assets already exists.')))
     // Если файла нет(нет возможности узнать access), то продолжаем
       .catch(() => {
         axios.get(strToSite)
           .then(({ data }) => builderHtml(data, stringMaker))
           .then((htmlData) => writeFile(savePath, htmlData))
           .then(() => resolve(savePath))
-          .catch((err) => reject(new Error(`${err.name}: ${err.message}`)));
+          .catch((err) => reject(new Error(errors[err.code] ?? `${err.name}: ${err.message}`)));
       });
   });
 };
