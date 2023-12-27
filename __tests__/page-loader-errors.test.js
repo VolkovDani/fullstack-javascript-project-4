@@ -26,14 +26,14 @@ test('Network error', async () => {
 
 test('Permissions ERROR in folder', async () => {
   const scope = nock('https://ru.hexlet.io').get('/courses').reply(200, 'Some page');
-  await expect(() => pageLoader('https://ru.hexlet.io/courses', '/sys')).rejects.toThrow('Not enough permissions in this folder');
+  await expect(() => pageLoader('https://ru.hexlet.io/courses', '/sys')).rejects.toThrow('Not enough permissions in this folder.');
   scope.isDone();
 });
 
 test('Except path for save', async () => {
   const fakePath = path.join(pathToTempFolder, 'fakeFOLDER');
   const scope = nock('https://ru.hexlet.io').get('/courses').reply(200, 'Some page');
-  await expect(() => pageLoader('https://ru.hexlet.io/courses', fakePath)).rejects.toThrow('No such directory. At first, make folder');
+  await expect(() => pageLoader('https://ru.hexlet.io/courses', fakePath)).rejects.toThrow('No such directory. At first, make folder.');
   scope.isDone();
 });
 
