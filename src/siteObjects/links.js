@@ -42,7 +42,7 @@ const downloadLinks = ($, stringMaker) => {
     else attribs.href = stringMaker.makeURLFileAsset(hrefCurrentElement);
   });
 
-  return Promise.all(arrPromises).then(() => $, stringMaker);
+  return Promise.all(arrPromises);
 };
 
 export default downloadLinks;

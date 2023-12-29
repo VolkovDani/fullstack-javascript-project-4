@@ -41,7 +41,7 @@ const downloadImages = ($, stringMaker) => {
     // eslint-disable-next-line no-param-reassign
     attribs.src = stringMaker.makeURLFileAsset(srcCurrentElement);
   });
-  return Promise.all(arrPromisesIMGs).then(() => $, stringMaker);
+  return Promise.all(arrPromisesIMGs);
 };
 
 export default downloadImages;

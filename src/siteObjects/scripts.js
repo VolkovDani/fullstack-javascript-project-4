@@ -42,7 +42,7 @@ const downloadScripts = ($, stringMaker) => {
     // eslint-disable-next-line no-param-reassign
     attribs.src = stringMaker.makeURLFileAsset(srcCurrentElement);
   });
-  return Promise.all(arrPromises).then(() => $, stringMaker);
+  return Promise.all(arrPromises);
 };
 
 export default downloadScripts;
