@@ -5,8 +5,7 @@
   "type": "module",
   "main": "./bin/page-loader.js",
   "scripts": {
-    "test": "jest",
-    "debug-test": "DEBUG=nock.*,page-loader.* jest"
+    "test": "jest"
   },
   "author": "Danil Volkov(volchara287@gmail.com)",
   "license": "ISC",
