@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 import commanderConfig from '../src/cli.js';
 
-const myArgs = process.argv.filter((opt) => {
-  const testParams = ['--colors', 'runInBand'];
-  return testParams.includes(opt);
-});
-commanderConfig.parse(myArgs, './src/page-loader.js');
+const myFunc = () => {
+  console.log(process.argv);
+  return process.argv;
+};
+
+commanderConfig.parse(myFunc(), './src/page-loader.js');
