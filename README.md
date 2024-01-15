@@ -4,17 +4,17 @@
 
 # Page Loader
 ## Installation
- - Clone repository
-   ```bash
-   git clone https://github.com/DanilCrazy99/fullstack-javascript-project-4
-   ```
- - Change directory to folder with project
- - ```bash
-   make install
-   ```
- - ```bash
-   page-loader --help
-   ```
+Clone repository
+```bash
+git clone https://github.com/DanilCrazy99/fullstack-javascript-project-4
+```
+Change directory to folder with project
+```bash
+make install
+```
+```bash
+page-loader --help
+```
 
 [![asciicast](https://asciinema.org/a/Ha8xCTdLdGkKlehKklwHX4wfY.svg)](https://asciinema.org/a/Ha8xCTdLdGkKlehKklwHX4wfY)
 ## Using
