@@ -18,6 +18,13 @@ export default class StringMaker {
       .replace(this.regExpForLastChar, '');
   }
 
+  isLocalHost(src) {
+    const { host } = this.urlWebSite;
+    const assetUrl = new URL(src);
+    if (host === assetUrl.host) return true;
+    return false;
+  }
+
   /**
  * Функция нужна для создания правильного путя до ассетов
  * @returns Хост сайта
