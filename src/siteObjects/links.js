@@ -13,11 +13,8 @@ const downloadLinks = ($, stringMaker) => {
    * Проверяет ссылку на ассет и в случае необходимости подставляет недостающие элементы ссылки
    * @returns url для скачивания ассета
    */
-    const getHrefCurrentElement = () => {
-      if (attribs.href.search(/\/(?<=^.)/g) === -1) return attribs.href;
-      return stringMaker.makeStrSiteWithoutDirs(attribs.href);
-    };
-    const hrefCurrentElement = getHrefCurrentElement();
+    if (attribs.href.search(/\/(?<=^.)/g) === -1) return;
+    const hrefCurrentElement = stringMaker.makeStrSiteWithoutDirs(attribs.href);
     const makingFile = (dataHref) => {
       let pathToFile;
       if (attribs.rel === 'canonical' || (attribs.rel === 'alternate' && attribs.type !== 'application/rss+xml')) pathToFile = stringMaker.makePathElementFile(hrefCurrentElement).concat('.html');
