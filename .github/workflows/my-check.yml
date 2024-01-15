@@ -15,3 +15,8 @@ jobs:
         run: make lint
       - name: Test Jest
         run: make test
+      - uses: paambaati/codeclimate-action@v3.2.0
+        env:
+          CC_TEST_REPORTER_ID: ${{secrets.CODE_CLIMATE_ID}}
+        with:
+          coverageCommand: make test_coverage
