@@ -14,11 +14,13 @@ const downloadScripts = ($, stringMaker) => {
      * Проверяет ссылку на ассет и в случае необходимости подставляет недостающие элементы ссылки
      * @returns url для скачивания ассета
      */
-    const getSrcCurrentElement = () => {
-      if (attribs.src.search(/\/(?<=^.)/g) === -1) return attribs.src;
-      return stringMaker.makeStrSiteWithoutDirs(attribs.src);
-    };
-    const srcCurrentElement = getSrcCurrentElement();
+    let srcCurrentElement;
+    if (attribs.src.search(/\/(?<=^.)/g) === -1) {
+      if (!stringMaker.isLocalHost(attribs.src)) return;
+      srcCurrentElement = attribs.src;
+    } else {
+      srcCurrentElement = stringMaker.makeStrSiteWithoutDirs(attribs.src);
+    }
     // Промис для создания файла с изображением
     const makingFile = (dataScript) => {
       const pathToScript = stringMaker.makePathElementFile(srcCurrentElement);
