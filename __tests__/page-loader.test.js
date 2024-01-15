@@ -50,13 +50,19 @@ test('Correct result', async () => {
   // Программа должна создать новый файл с скачанной страницей
   const fixtureResult = await readFile(getFixturePath('result'), 'utf-8');
   const newFileContent = await readFile(pathToNewFile, 'utf-8');
-  expect(newFileContent).toBe(fixtureResult);
+  expect(newFileContent).toStrictEqual(fixtureResult);
 });
 
 test('Downloading imgs', async () => {
-  const dataImg = (await readFile(path.join(pathToTempFolder, 'ru-hexlet-io-courses_files', 'ru-hexlet-io-assets-professions-nodejs.png'))).toString();
-  const dataFixtureImg = (await readFile(getFixturePath('testAssets/image_nodejs.png'))).toString();
-  expect(dataImg).toBe(dataFixtureImg);
+  const dataImg = (await readFile(path.join(pathToTempFolder, 'ru-hexlet-io-courses_files', 'ru-hexlet-io-assets-professions-nodejs.png'), 'utf-8')).toString();
+  const dataFixtureImg = (await readFile(getFixturePath('testAssets/image_nodejs.png'), 'utf-8')).toString();
+  expect(dataImg).toStrictEqual(dataFixtureImg);
+});
+
+test('Downloading links', async () => {
+  const dataLink = (await readFile(path.join(pathToTempFolder, 'ru-hexlet-io-courses_files', 'ru-hexlet-io-assets-application.css'))).toString();
+  const dataFixtureLink = (await readFile(getFixturePath('testAssets/application.css'))).toString();
+  expect(dataLink).toStrictEqual(dataFixtureLink);
 });
 
 test('Downloading Additional Assets', async () => {
@@ -67,5 +73,5 @@ test('Downloading Additional Assets', async () => {
 
 afterEach(async () => {
   scope.done();
-  if (saveTempFiles) await rmdir(pathToTempFolder, { recursive: true });
+  if (!saveTempFiles) await rmdir(pathToTempFolder, { recursive: true });
 });
