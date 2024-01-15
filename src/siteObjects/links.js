@@ -19,9 +19,9 @@ const downloadLinks = ($, stringMaker) => {
       let pathToFile;
       if (attribs.rel === 'canonical' || (attribs.rel === 'alternate' && attribs.type !== 'application/rss+xml')) pathToFile = stringMaker.makePathElementFile(hrefCurrentElement).concat('.html');
       else pathToFile = stringMaker.makePathElementFile(hrefCurrentElement);
-      return writeFile(pathToFile, '\uFEFF'.concat(dataHref.toString()));
+      return writeFile(pathToFile, dataHref);
     };
-    const downloadLink = axios.get(hrefCurrentElement, { responseType: 'document' })
+    const downloadLink = axios.get(hrefCurrentElement, { responseType: 'arraybuffer' })
       .then((response) => {
         linksLog('GET link: ', hrefCurrentElement);
         makingFile(response.data);
