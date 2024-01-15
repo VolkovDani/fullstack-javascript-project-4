@@ -18,8 +18,6 @@ const saveTempFiles = false;
 
 let pathToTempFolder;
 let scope;
-let scope2;
-let scope3;
 let pathToNewFile;
 let result;
 
@@ -37,12 +35,6 @@ beforeEach(async () => {
     .replyWithFile(200, getFixturePath('testAssets/ru-hexlet-io-courses.html'))
     .get('/packs/js/runtime.js')
     .replyWithFile(200, getFixturePath('testAssets/ru-hexlet-io-packs-js-runtime.js'));
-  scope2 = nock('https://cdn2.hexlet.io')
-    .get('/assets/menu.css')
-    .replyWithFile(200, getFixturePath('testAssets/menu.css'));
-  scope3 = nock('https://js.stripe.com')
-    .get('/v3/')
-    .replyWithFile(200, getFixturePath('testAssets/js-stripe-com-v3'));
 
   pathToTempFolder = `${await mkdtemp(path.join(tmpdir(), 'test-files-page-loader-'))}`;
   pathToNewFile = path.join(pathToTempFolder, '/ru-hexlet-io-courses.html');
@@ -75,7 +67,5 @@ test('Downloading Additional Assets', async () => {
 
 afterEach(async () => {
   scope.done();
-  scope2.done();
-  scope3.done();
   if (saveTempFiles) await rmdir(pathToTempFolder, { recursive: true });
 });
