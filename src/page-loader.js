@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { writeFile } from 'fs/promises';
-import StringMaker from '../utils/StringMaker.js';
+import StringMaker from './utils/StringMaker.js';
 import builderHtml from './builderHtml.js';
 import checkFolderWithAssets from './checkFolderAccess.js';
 import checkHTMLFileAccess from './checkHTMLFileAccess.js';

@@ -1,7 +1,7 @@
 import { Command } from 'commander';
 import debugLib from 'debug';
 import pageLoader from './page-loader.js';
-import versionCatcher from '../utils/versionCatcher.js';
+import versionCatcher from './utils/versionCatcher.js';
 
 const commanderConfig = new Command();
 

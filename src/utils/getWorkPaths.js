@@ -9,7 +9,7 @@ const myDirname = dirname(filename);
  * @param  {...String} filenameFile Название файла в фикстурах
  * @returns Путь до фикстуры
 */
-const getFixturePath = (...filenameFile) => path.join(myDirname, '..', '__fixtures__', ...filenameFile);
+const getFixturePath = (...filenameFile) => path.join(path.resolve(), '__fixtures__', ...filenameFile);
 
 const getPathWorkDir = () => myDirname;
 
