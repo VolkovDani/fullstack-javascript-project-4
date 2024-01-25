@@ -1,17 +1,16 @@
 import { Command } from 'commander';
 import debugLib from 'debug';
 import pageLoader from './page-loader.js';
-import versionCatcher from './utils/versionCatcher.js';
 
 const commanderConfig = new Command();
 
 commanderConfig
   .description(
     `Page loader utility.\n
-For using this cli program you need write URL a website which you need to download.
-Format for working: page-loader <URL> [-o <path to folder for saving>]`,
+  For using this cli program you need write URL a website which you need to download.
+  Format for working: page-loader <URL> [-o <path to folder for saving>]`,
   )
-  .version(`${versionCatcher}`)
+  .version('0.1.4')
   .arguments('<url>')
   .option(
     '-o, --output <path>',
