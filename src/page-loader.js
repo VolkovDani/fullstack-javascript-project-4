@@ -9,6 +9,7 @@ import checkHTMLFileAccess from './checkHTMLFileAccess.js';
 const errors = {
   ENOENT: 'No such directory. At first, make folder.',
   EACCES: 'Not enough permissions in this folder.',
+  EEXIST: 'Folder with assets already exists.',
 };
 
 const pageLoader = (strToSite, pathToSave = '') => {
@@ -20,10 +21,7 @@ const pageLoader = (strToSite, pathToSave = '') => {
     // Check file exists. If exists file will not downloading
     checkHTMLFileAccess(savePath).then(() => {
       checkFolderWithAssets(stringMaker.makePathFolderAssets());
-    }).catch((err) => {
-      if (err.userErrMessage) reject(new Error(err.userErrMessage));
-      reject(new Error(err));
-    }).then(() => {
+    }).catch((err) => reject(new Error(errors[err.code] ?? `${err.name}: ${err.message}`))).then(() => {
       axios.get(strToSite)
         .then(({ data }) => builderHtml(data, stringMaker))
         .then((htmlData) => writeFile(savePath, htmlData))

@@ -2,10 +2,8 @@ import { access } from 'fs/promises';
 
 const checkFolderWithAssets = (path) => access(path)
   .then(() => {
-    const errorObj = {
-      userErrMessage: 'Folder with assets already exists.',
-    };
-    throw errorObj;
+    const userErr = { code: 'EEXIST' };
+    throw userErr;
   })
   .catch((err) => {
     if (err.code === 'ENOENT') return;
