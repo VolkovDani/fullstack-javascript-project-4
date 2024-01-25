@@ -1,6 +1,6 @@
-import { readdir } from 'fs/promises';
+import { access } from 'fs/promises';
 
-const checkFolderWithAssets = (path) => readdir(path)
+const checkFolderWithAssets = (path) => access(path)
   .then(() => {
     const errorObj = {
       userErrMessage: 'Folder with assets already exists.',
