@@ -16,8 +16,8 @@ const pageLoader = (strToSite, pathToSave = '') => {
   const stringMaker = new StringMaker(strToSite, pathToSaveFile);
   const savePath = stringMaker.makePathFileHTML();
   return new Promise((resolve, reject) => {
-    // Путь для сохранения файла
-    // Идёт проверка на наличие файла. Если есть, файл не будет начинать скачиваться.
+    // Path for saving file
+    // Check file exists. If exists file will not downloading
     checkHTMLFileAccess(savePath).then(() => {
       checkFolderWithAssets(stringMaker.makePathFolderAssets());
     }).catch((err) => {

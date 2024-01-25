@@ -6,8 +6,8 @@ import downloadImages from './siteObjects/images.js';
 import downloadLinks from './siteObjects/links.js';
 import downloadScripts from './siteObjects/scripts.js';
 
-// Здесь происходит передача страницы сайта
-// с последующей обработкой с заменой ссылок и скачиванием всех файлов
+// This function download all assets
+// and changes all links to files inside html file
 export default (siteData, stringMaker) => {
   const $ = cheerio.load(siteData);
 

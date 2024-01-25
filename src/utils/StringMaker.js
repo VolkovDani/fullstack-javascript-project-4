@@ -2,9 +2,9 @@ import path from 'path';
 
 export default class StringMaker {
   /**
-   * Класс с методами для преобразования строк и путей
-   * @param {String} strUrlWebSite Ссылка на сайт который скачиваем
-   * @param {String} pathFile Путь для сохранения файла
+   * Class for working with paths
+   * @param {String} strUrlWebSite website url(string, not URL object)
+   * @param {String} pathFile Path to saving files
    */
   constructor(strUrlWebSite, pathFile) {
     this.pathFile = pathFile;
@@ -26,20 +26,19 @@ export default class StringMaker {
   }
 
   /**
- * Функция нужна для создания правильного путя до ассетов
- * @returns Хост сайта
+ * Function for correct creating path to assets
+ * @returns Host website
  */
   makeStrSiteWithoutDirs(attribSrc) {
     return `${this.urlWebSite.origin}${attribSrc}`;
   }
 
   /**
-   * Изменяет переданный src элемента DOM, заменяя все символы отличные от букв и цифр на "-"
-   * @param {String} elementSrc src элемента который обрабатываем
-   * @returns Заменяет все символы на "-", кроме "." перед расширение файла
+   * Changes src from DOM by removing all symbols different with letters to "-"
+   * @param {String} elementSrc src element
+   * @returns Changes all symbols to "-" instead "." before extension file
    */
   makeRegularNameSrcElement(elementSrc) {
-    // Нужна для того чтобы оставить знак точки у расширения файла
     const funcOfReplacing = (match, offset, string) => {
       const lenOfStr = string.length;
       if (offset > lenOfStr - 5 && match === '.') return '.';
@@ -53,10 +52,9 @@ export default class StringMaker {
   }
 
   /**
-   * Нужен для создания относительного пути до файла сайта, которые мы подставим
-   * вместо старых данных
-   * @param {String} elementSrc Старый путь к файлу
-   * @returns Новый путь к файлу, который подставим в новый HTML
+   * Makes new path to file with website
+   * @param {String} elementSrc Old path to website
+   * @returns New path to file which we will use in new HTML file
    */
   makeURLFileAsset(elementSrc) {
     return path.join(
@@ -66,9 +64,9 @@ export default class StringMaker {
   }
 
   /**
-   * Нужно для склейки путей до файлов изображений
-   * @param {String} elementSrc Путь до файла изображения и его название
-   * @returns Путь сохранения изображения
+   * Makes path for images
+   * @param {String} elementSrc Path to image together with name file
+   * @returns Path to saving
   */
   makePathElementFile(elementSrc) {
     const regHTML = this.stylizedURL;
@@ -80,9 +78,9 @@ export default class StringMaker {
   }
 
   /**
-  * Функция для создания пути до папки с ассетами
-  * @param {String} strUrlWebSite Адрес вебсайта
-  * @returns Путь до папки с ассетами
+  * Makes path to folder with assets
+  * @param {String} strUrlWebSite Website url(string)
+  * @returns Path to folder with assets
   */
   makePathFolderAssets() {
     return path.join(
@@ -92,9 +90,8 @@ export default class StringMaker {
   }
 
   /**
-   * Преобразует путь сохранения полученный от пользователя и url вебсайта
-   * в ссылку для сохранения HTML файла сайта
-   * @returns Путь по которому будет сохранятся HTML
+   * Makes path to saving HTML
+   * @returns path
    */
   makePathFileHTML() {
     return path
