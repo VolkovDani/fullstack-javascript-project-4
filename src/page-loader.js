@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { writeFile } from 'fs/promises';
+import path from 'path';
 import StringMaker from './utils/StringMaker.js';
 import builderHtml from './builderHtml.js';
 import checkFolderWithAssets from './checkFolderAccess.js';
@@ -10,9 +11,8 @@ const errors = {
   EACCES: 'Not enough permissions in this folder.',
 };
 
-const pageLoader = (strToSite, pathToSave = '/home/user/<current-dir>') => {
-  let pathToSaveFile = pathToSave;
-  if (pathToSaveFile === '/home/user/<current-dir>') pathToSaveFile = process.cwd();
+const pageLoader = (strToSite, pathToSave = '') => {
+  const pathToSaveFile = path.resolve(process.cwd(), pathToSave);
   const stringMaker = new StringMaker(strToSite, pathToSaveFile);
   const savePath = stringMaker.makePathFileHTML();
   return new Promise((resolve, reject) => {
