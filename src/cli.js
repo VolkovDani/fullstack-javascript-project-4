@@ -16,7 +16,6 @@ Format for working: page-loader <URL> [-o <path to folder for saving>]`,
   .option(
     '-o, --output <path>',
     'output dir',
-    '/home/user/<current-dir>',
   )
   .option(
     '-d, --debug',
