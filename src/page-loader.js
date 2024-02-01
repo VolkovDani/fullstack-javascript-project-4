@@ -13,21 +13,25 @@ const errors = {
 
 const pageLoader = (strToSite, pathToSave = '') => {
   const pathToSaveFile = path.resolve(process.cwd(), pathToSave);
-  const stringMaker = new StringMaker(strToSite, pathToSaveFile);
+  let url;
+  try {
+    url = new URL(strToSite);
+  } catch (err) {
+    throw new Error('It is wrong URL string');
+  }
+  const stringMaker = new StringMaker(url, pathToSaveFile);
   const savePath = stringMaker.makePathFileHTML();
-  return new Promise((resolve, reject) => {
-    // Path for saving file
-    // Check file exists. If exists file will not downloading
-    checkAccess(savePath).then(() => {
-      checkAccess(stringMaker.makePathFolderAssets());
-    }).catch((err) => reject(new Error(errors[err.code] ?? `${err.name}: ${err.message}`))).then(() => {
-      axios.get(strToSite)
-        .then(({ data }) => downloaderAssets(data, stringMaker))
-        .then((htmlData) => writeFile(savePath, htmlData))
-        .then(() => resolve(savePath))
-        .catch((err) => reject(new Error(errors[err.code] ?? `${err.name}: ${err.message}`)));
-    });
-  });
+  // Path for saving file
+  // Check file exists. If exists file will not downloading
+  return checkAccess(savePath).then(() => {
+    checkAccess(stringMaker.makePathFolderAssets());
+  }).catch((err) => { throw new Error(errors[err.code] ?? `${err.name}: ${err.message}`); })
+    .then(() => axios.get(strToSite)
+      .then(({ data }) => downloaderAssets(data, stringMaker))
+      .then((htmlData) => writeFile(savePath, htmlData))
+      .then(() => savePath)
+      .catch((err) => { throw new Error(errors[err.code] ?? `${err.name}: ${err.message}`); }))
+    .then((res) => res);
 };
 
 export default pageLoader;

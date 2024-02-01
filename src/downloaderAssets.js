@@ -26,10 +26,7 @@ export default (siteData, stringMaker) => {
   }), { concurrent: true });
 
   const pathFolderAssets = stringMaker.makePathFolderAssets();
-  return new Promise((resolve, reject) => {
-    mkdir(pathFolderAssets)
-      .then(() => tasks.run())
-      .then(() => resolve($.html()))
-      .catch(reject);
-  });
+  return mkdir(pathFolderAssets)
+    .then(() => tasks.run())
+    .then(() => $.html());
 };

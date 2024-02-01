@@ -11,7 +11,7 @@ export default class StringMaker {
     this.regExpNonLetters = /[^\w]/g;
     this.regExpForLastChar = /-(?!.)/g;
 
-    this.urlWebSite = new URL(strUrlWebSite);
+    this.urlWebSite = strUrlWebSite;
     this.stylizedURL = this.urlWebSite.href
       .split('//')[1]
       .replace(this.regExpNonLetters, '-')
