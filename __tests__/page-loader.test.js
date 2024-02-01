@@ -19,7 +19,6 @@ const saveTempFiles = false;
 let pathToTempFolder;
 let scope;
 let pathToNewFile;
-let result;
 
 beforeEach(async () => {
   const responseAnswer = await readFile(getFixturePath('./preparing/siteData'), 'utf-8');
@@ -38,15 +37,16 @@ beforeEach(async () => {
 
   pathToTempFolder = `${await mkdtemp(path.join(tmpdir(), 'test-files-page-loader-'))}`;
   pathToNewFile = path.join(pathToTempFolder, '/ru-hexlet-io-courses.html');
-  result = await pageLoader('https://ru.hexlet.io/courses', pathToTempFolder);
 });
 
 test('Return path test', async () => {
+  const result = await pageLoader('https://ru.hexlet.io/courses', pathToTempFolder);
   // Программа должна вывести путь до сохранённого файла
   expect(result).toBe(pathToNewFile);
 });
 
 test('Correct result', async () => {
+  await pageLoader('https://ru.hexlet.io/courses', pathToTempFolder);
   // Программа должна создать новый файл с скачанной страницей
   const fixtureResult = await readFile(getFixturePath('result'), 'utf-8');
   const newFileContent = await readFile(pathToNewFile, 'utf-8');
@@ -54,18 +54,21 @@ test('Correct result', async () => {
 });
 
 test('Downloading imgs', async () => {
+  await pageLoader('https://ru.hexlet.io/courses', pathToTempFolder);
   const dataImg = (await readFile(path.join(pathToTempFolder, 'ru-hexlet-io-courses_files', 'ru-hexlet-io-assets-professions-nodejs.png'), 'utf-8')).toString();
   const dataFixtureImg = (await readFile(getFixturePath('testAssets/image_nodejs.png'), 'utf-8')).toString();
   expect(dataImg).toStrictEqual(dataFixtureImg);
 });
 
 test('Downloading links', async () => {
+  await pageLoader('https://ru.hexlet.io/courses', pathToTempFolder);
   const dataLink = (await readFile(path.join(pathToTempFolder, 'ru-hexlet-io-courses_files', 'ru-hexlet-io-assets-application.css'))).toString();
   const dataFixtureLink = (await readFile(getFixturePath('testAssets/application.css'))).toString();
   expect(dataLink).toStrictEqual(dataFixtureLink);
 });
 
 test('Downloading Additional Assets', async () => {
+  await pageLoader('https://ru.hexlet.io/courses', pathToTempFolder);
   const arrNeededFiles = ((await readFile(getFixturePath('listLinks&Scripts'), 'utf-8')).split('\n')).sort();
   const arrFilesInFolder = (await readdir(path.join(pathToTempFolder, 'ru-hexlet-io-courses_files'))).sort();
   expect(arrFilesInFolder).toEqual(arrNeededFiles);
