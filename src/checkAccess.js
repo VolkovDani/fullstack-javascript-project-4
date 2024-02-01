@@ -1,6 +1,6 @@
 import { access } from 'fs/promises';
 
-const checkFolderWithAssets = (path) => access(path)
+export default (path) => access(path)
   .then(() => {
     const userErr = { code: 'EEXIST' };
     throw userErr;
@@ -9,5 +9,3 @@ const checkFolderWithAssets = (path) => access(path)
     if (err.code === 'ENOENT') return;
     throw err;
   });
-
-export default checkFolderWithAssets;

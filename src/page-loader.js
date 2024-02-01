@@ -3,8 +3,7 @@ import { writeFile } from 'fs/promises';
 import path from 'path';
 import StringMaker from './utils/StringMaker.js';
 import builderHtml from './builderHtml.js';
-import checkFolderWithAssets from './checkFolderAccess.js';
-import checkHTMLFileAccess from './checkHTMLFileAccess.js';
+import checkAccess from './checkAccess.js';
 
 const errors = {
   ENOENT: 'No such directory. At first, make folder.',
@@ -19,8 +18,8 @@ const pageLoader = (strToSite, pathToSave = '') => {
   return new Promise((resolve, reject) => {
     // Path for saving file
     // Check file exists. If exists file will not downloading
-    checkHTMLFileAccess(savePath).then(() => {
-      checkFolderWithAssets(stringMaker.makePathFolderAssets());
+    checkAccess(savePath).then(() => {
+      checkAccess(stringMaker.makePathFolderAssets());
     }).catch((err) => reject(new Error(errors[err.code] ?? `${err.name}: ${err.message}`))).then(() => {
       axios.get(strToSite)
         .then(({ data }) => builderHtml(data, stringMaker))
