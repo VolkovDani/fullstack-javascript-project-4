@@ -2,7 +2,7 @@ import axios from 'axios';
 import { writeFile } from 'fs/promises';
 import path from 'path';
 import StringMaker from './utils/StringMaker.js';
-import builderHtml from './builderHtml.js';
+import downloaderAssets from './downloaderAssets.js';
 import checkAccess from './checkAccess.js';
 
 const errors = {
@@ -22,7 +22,7 @@ const pageLoader = (strToSite, pathToSave = '') => {
       checkAccess(stringMaker.makePathFolderAssets());
     }).catch((err) => reject(new Error(errors[err.code] ?? `${err.name}: ${err.message}`))).then(() => {
       axios.get(strToSite)
-        .then(({ data }) => builderHtml(data, stringMaker))
+        .then(({ data }) => downloaderAssets(data, stringMaker))
         .then((htmlData) => writeFile(savePath, htmlData))
         .then(() => resolve(savePath))
         .catch((err) => reject(new Error(errors[err.code] ?? `${err.name}: ${err.message}`)));
