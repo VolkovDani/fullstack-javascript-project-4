@@ -6,7 +6,7 @@ import {
 } from 'fs/promises';
 import { tmpdir } from 'os';
 import pageLoader from '../src/page-loader.js';
-import { getFixturePath } from '../src/utils/getWorkPaths.js';
+import { getFixturePath } from '../utils/getWorkPaths.js';
 
 nock.disableNetConnect();
 /**
