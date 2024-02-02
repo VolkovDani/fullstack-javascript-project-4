@@ -1,6 +1,6 @@
 import nock from 'nock';
 import {
-  mkdtemp, rmdir,
+  mkdtemp, rmdir, mkdir,
 } from 'fs/promises';
 import path from 'path';
 import { tmpdir } from 'os';
@@ -35,6 +35,11 @@ test('Except path for save', async () => {
   const scope = nock('https://ru.hexlet.io').get('/courses').reply(200, 'Some page');
   await expect(() => pageLoader('https://ru.hexlet.io/courses', fakePath)).rejects.toThrow('No such directory. At first, make folder.');
   scope.isDone();
+});
+
+test('Folder already exists', async () => {
+  await mkdir(path.join(pathToTempFolder, 'ru-hexlet-io-courses_files'));
+  await expect(() => pageLoader('https://ru.hexlet.io/courses', pathToTempFolder)).rejects.toThrow('Folder with assets already exists.');
 });
 
 afterEach(async () => {
