@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { writeFile } from 'fs/promises';
 import path from 'path';
-import StringMaker from './utils/StringMaker.js';
-import downloaderAssets from './downloaderAssets.js';
+import downloadAsset from './downloadAsset.js';
 import checkAccess from './checkAccess.js';
 
 const errors = {
@@ -19,15 +18,26 @@ const pageLoader = (strToSite, pathToSave = '') => {
   } catch (err) {
     throw new Error('It is wrong URL string');
   }
-  const stringMaker = new StringMaker(url, pathToSaveFile);
-  const savePath = stringMaker.makePathFileHTML();
+  const stylizedURL = url.href
+    .split('//')[1]
+    .replace(/[^\w]/g, '-')
+    .replace(/-(?!.)/g, '');
+  const savePath = path.join(
+    pathToSaveFile,
+    stylizedURL
+      .concat('.html'),
+  );
   // Path for saving file
   // Check file exists. If exists file will not downloading
   return checkAccess(savePath).then(() => {
-    checkAccess(stringMaker.makePathFolderAssets());
+    checkAccess(path.join(
+      pathToSaveFile,
+      stylizedURL
+        .concat('_files'),
+    ));
   }).catch((err) => { throw new Error(errors[err.code] ?? `${err.name}: ${err.message}`); })
     .then(() => axios.get(strToSite)
-      .then(({ data }) => downloaderAssets(data, stringMaker))
+      .then(({ data }) => downloadAsset(data, url, pathToSaveFile))
       .then((htmlData) => writeFile(savePath, htmlData))
       .then(() => savePath)
       .catch((err) => { throw new Error(errors[err.code] ?? `${err.name}: ${err.message}`); }))
