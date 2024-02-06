@@ -117,7 +117,7 @@ export default (siteData, mainUrl, mainPathFile) => {
       task,
     };
   }), { concurrent: true });
-  return mkdir(pathToFolderAssets)
+  return mkdir(pathToFolderAssets, { recursive: true })
     .then(() => tasks.run())
     .then(() => $.html());
 };

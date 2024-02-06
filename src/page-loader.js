@@ -5,9 +5,9 @@ import downloadAsset from './downloadAsset.js';
 import checkAccess from './checkAccess.js';
 
 const errors = {
-  ENOENT: 'No such directory. At first, make folder.',
   EACCES: 'Not enough permissions in this folder.',
-  EEXIST: 'Folder with assets already exists.',
+  EEXISTassets: 'Folder with assets already exists.',
+  EEXISThtml: 'HTML file already exists.',
 };
 
 const pageLoader = (strToSite, pathToSave = '') => {
@@ -29,11 +29,11 @@ const pageLoader = (strToSite, pathToSave = '') => {
   );
   // Path for saving file
   // Check file exists. If exists file will not downloading
-  return checkAccess(savePath).then(() => checkAccess(path.join(
+  return checkAccess(savePath, path.join(
     pathToSaveFile,
     stylizedURL
       .concat('_files'),
-  )))
+  ))
     .catch((err) => { throw new Error(errors[err.code] ?? `${err.name}: ${err.message}`); })
     .then(() => axios.get(strToSite)
       .then(({ data }) => downloadAsset(data, url, pathToSaveFile))
