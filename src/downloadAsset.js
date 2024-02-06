@@ -25,18 +25,38 @@ export default (siteData, mainUrl, mainPathFile) => {
     .replace(regExpForLastChar, '')
     .concat('_files');
 
+  const makeStrSiteWithoutDirs = (attr) => {
+    const { host } = mainUrl;
+    if (attr.search(/\/(?<=^.)/g) === -1) {
+      const assetUrl = new URL(attr);
+      if (host !== assetUrl.host) return false;
+      return attr;
+    }
+    return `${mainUrl.origin}${attr}`;
+  };
+
+  const removeSymbols = (str) => {
+    const words = str.replace(/.{1,}\/\//g, '').split(regExpNonLetters);
+    const ext = words.pop();
+    return words.join('-').concat(`.${ext}`);
+  };
+  const removeSymbolsAndExt = (str) => {
+    const words = str.replace(/.{1,}\/\//g, '').split(regExpNonLetters);
+    return words.join('-');
+  };
+
+  const makePath = (url, ext) => path.join(
+    mainPathFile,
+    pathToFolder,
+    ext ? removeSymbolsAndExt(url).concat(ext) : removeSymbols(url),
+  );
+
+  const makePathHTML = (url, ext) => path
+    .join(pathToFolder, ext ? removeSymbolsAndExt(url).concat(ext) : removeSymbols(url));
+
   Object.keys(needs).forEach((nameAsset) => {
     const listItems = $(nameAsset);
     listItems.each((i, { attribs }) => {
-      const makeStrSiteWithoutDirs = (attr) => {
-        const { host } = mainUrl;
-        if (attr.search(/\/(?<=^.)/g) === -1) {
-          const assetUrl = new URL(attr);
-          if (host !== assetUrl.host) return false;
-          return attr;
-        }
-        return `${mainUrl.origin}${attr}`;
-      };
       const map = {
         img: () => makeStrSiteWithoutDirs(attribs.src),
         link: () => makeStrSiteWithoutDirs(attribs.href),
@@ -46,36 +66,19 @@ export default (siteData, mainUrl, mainPathFile) => {
           return makeStrSiteWithoutDirs(attribs.src);
         },
       };
-      const removeSymbols = (str) => {
-        const words = str.replace(/.{1,}\/\//g, '').split(regExpNonLetters);
-        const ext = words.pop();
-        return words.join('-').concat(`.${ext}`);
-      };
-      const removeSymbolsAndExt = (str) => {
-        const words = str.replace(/.{1,}\/\//g, '').split(regExpNonLetters);
-        return words.join('-');
-      };
       const urlForAsset = map[nameAsset]();
+
       if (urlForAsset) {
         const makingFile = (dataAsset) => {
-          const makePath = () => path.join(
-            mainPathFile,
-            pathToFolder,
-            removeSymbols(urlForAsset),
-          );
           let pathToAsset;
           if (nameAsset === 'link') {
             if (attribs.rel === 'canonical' || (attribs.rel === 'alternate' && attribs.type !== 'application/rss+xml')) {
-              pathToAsset = path.join(
-                mainPathFile,
-                pathToFolder,
-                removeSymbolsAndExt(urlForAsset),
-              ).concat('.html');
+              pathToAsset = makePath(urlForAsset, '.html');
             } else {
-              pathToAsset = makePath();
+              pathToAsset = makePath(urlForAsset);
             }
           } else {
-            pathToAsset = makePath();
+            pathToAsset = makePath(urlForAsset);
           }
           return writeFile(pathToAsset, dataAsset);
         };
@@ -90,16 +93,18 @@ export default (siteData, mainUrl, mainPathFile) => {
             // eslint-disable-next-line no-console
             return console.error(`${e.name}: ${e.message} in asset '${nameAsset}': ${urlForAsset}`);
           });
+
         promisesObj[nameAsset].push(downloadProcess);
         if (nameAsset === 'link') {
-          if (attribs.rel === 'canonical') attribs.href = path.join(pathToFolder, removeSymbolsAndExt(urlForAsset)).concat('.html');
-          else attribs.href = path.join(pathToFolder, removeSymbols(urlForAsset));
+          if (attribs.rel === 'canonical') attribs.href = makePathHTML(urlForAsset, '.html');
+          else attribs.href = makePathHTML(urlForAsset);
         } else {
-          attribs.src = path.join(pathToFolder, removeSymbols(urlForAsset));
+          attribs.src = makePathHTML(urlForAsset);
         }
       }
     });
   });
+
   const pathToFolderAssets = path.join(
     mainPathFile,
     pathToFolder,
