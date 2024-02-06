@@ -39,8 +39,7 @@ const pageLoader = (strToSite, pathToSave = '') => {
       .then(({ data }) => downloadAsset(data, url, pathToSaveFile))
       .then((htmlData) => writeFile(savePath, htmlData))
       .then(() => savePath)
-      .catch((err) => { throw new Error(errors[err.code] ?? `${err.name}: ${err.message}`); }))
-    .then((res) => res);
+      .catch((err) => { throw new Error(errors[err.code] ?? `${err.name}: ${err.message}`); }));
 };
 
 export default pageLoader;
