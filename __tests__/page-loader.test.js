@@ -33,7 +33,9 @@ beforeEach(async () => {
     .get('/courses')
     .replyWithFile(200, getFixturePath('testAssets/ru-hexlet-io-courses.html'))
     .get('/packs/js/runtime.js')
-    .replyWithFile(200, getFixturePath('testAssets/ru-hexlet-io-packs-js-runtime.js'));
+    .replyWithFile(200, getFixturePath('testAssets/ru-hexlet-io-packs-js-runtime.js'))
+    .get('/assets/application2.css')
+    .replyWithFile(200, getFixturePath('testAssets/application2.css'));
 
   pathToTempFolder = `${await mkdtemp(path.join(tmpdir(), 'test-files-page-loader-'))}`;
   pathToNewFile = path.join(pathToTempFolder, '/ru-hexlet-io-courses.html');

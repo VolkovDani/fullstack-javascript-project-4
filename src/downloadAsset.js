@@ -28,13 +28,19 @@ export default (siteData, mainUrl, mainPathFile) => {
   Object.keys(needs).forEach((nameAsset) => {
     const listItems = $(nameAsset);
     listItems.each((i, { attribs }) => {
-      const makeStrSiteWithoutDirs = (attr) => `${mainUrl.origin}${attr}`;
+      const makeStrSiteWithoutDirs = (attr) => {
+        const { host } = mainUrl;
+        if (attr.search(/\/(?<=^.)/g) === -1) {
+          const assetUrl = new URL(attr);
+          if (host !== assetUrl.host) return false;
+          return attr;
+        }
+        return `${mainUrl.origin}${attr}`;
+      };
       const map = {
         img: () => makeStrSiteWithoutDirs(attribs.src),
-        link: () => {
-          if (attribs.href.search(/\/(?<=^.)/g) === -1) return false;
-          return makeStrSiteWithoutDirs(attribs.href);
-        },
+        link: () => makeStrSiteWithoutDirs(attribs.href),
+        // if (attribs.href.search(/\/(?<=^.)/g) === -1) return false;,
         script: () => {
           if (!attribs.src) return false;
           let srcCurrentElement;
