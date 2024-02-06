@@ -43,16 +43,7 @@ export default (siteData, mainUrl, mainPathFile) => {
         // if (attribs.href.search(/\/(?<=^.)/g) === -1) return false;,
         script: () => {
           if (!attribs.src) return false;
-          let srcCurrentElement;
-          if (attribs.src.search(/\/(?<=^.)/g) === -1) {
-            const { host } = mainUrl;
-            const assetUrl = new URL(attribs.src);
-            if (host !== assetUrl.host) return false;
-            srcCurrentElement = attribs.src;
-          } else {
-            srcCurrentElement = makeStrSiteWithoutDirs(attribs.src);
-          }
-          return srcCurrentElement;
+          return makeStrSiteWithoutDirs(attribs.src);
         },
       };
       const removeSymbols = (str) => {
