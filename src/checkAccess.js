@@ -12,6 +12,7 @@ export default (path, assetsPath) => {
       throw userErr;
     })
     .catch((err) => {
+      console.log('first');
       logTool('Error access HTML: ', `${path}, err.code: ${err.code}`);
       if (err.code === 'ENOENT') return;
       throw err;
@@ -25,6 +26,7 @@ export default (path, assetsPath) => {
         throw userErr;
       })
       .catch((err) => {
+        console.log('second');
         if (err.code === 'ENOENT') return;
         throw err;
       }));
