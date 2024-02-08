@@ -27,15 +27,14 @@ const pageLoader = (strToSite, pathToSave = '') => {
     stylizedURL
       .concat('.html'),
   );
-  checkAccess(savePath, path.join(
+
+  return checkAccess(savePath, path.join(
     pathToSaveFile,
     stylizedURL
       .concat('_files'),
   ))
-    .catch((err) => { throw new Error(errors[err.code] ?? `${err.name}: ${err.message}`); });
-  // Path for saving file
-  // Check file exists. If exists file will not downloading
-  return axios.get(strToSite)
+    .catch((err) => { throw new Error(errors[err.code] ?? `${err.name}: ${err.message}`); })
+    .then(() => axios.get(strToSite))
     .then(({ data }) => downloadAsset(data, url, pathToSaveFile))
     .then((htmlData) => writeFile(savePath, htmlData))
     .then(() => savePath)
