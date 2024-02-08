@@ -82,6 +82,7 @@ export default (siteData, mainUrl, mainPathFile) => {
           }
           return writeFile(pathToAsset, dataAsset);
         };
+
         const logTool = log.extend(nameAsset);
         const downloadProcess = axios.get(urlForAsset, { responseType: 'arraybuffer' })
           .then((response) => {
@@ -109,15 +110,18 @@ export default (siteData, mainUrl, mainPathFile) => {
     mainPathFile,
     pathToFolder,
   );
-  const tasks = new Listr(Object.keys(promisesObj).map((key) => {
+  const tasks = Object.keys(promisesObj).map((key) => {
     const title = key;
     const task = () => Promise.all(promisesObj[key]);
     return {
       title,
       task,
     };
-  }), { concurrent: true });
+  });
+
+  const ListrTasks = new Listr(tasks, { concurrent: true });
+
   return mkdir(pathToFolderAssets, { recursive: true })
-    .then(() => tasks.run())
+    .then(() => ListrTasks.run())
     .then(() => $.html());
 };
